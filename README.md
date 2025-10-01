@@ -8,3 +8,5 @@ Branches
 - main
 - dev
   - feature
+    
+Alla har fått tillgång till github repot.
