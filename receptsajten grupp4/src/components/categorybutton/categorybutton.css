@@ -1,0 +1,9 @@
+.hero nav .categorybutton {
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+}

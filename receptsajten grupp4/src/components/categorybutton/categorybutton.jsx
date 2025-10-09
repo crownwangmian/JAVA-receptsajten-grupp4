@@ -2,7 +2,7 @@ import './categorybutton.css';
 
 export default function CategoryButton({name}){
     return(
-        <button>
+        <button className='categorybutton'>
             {name}
         </button>
     )
