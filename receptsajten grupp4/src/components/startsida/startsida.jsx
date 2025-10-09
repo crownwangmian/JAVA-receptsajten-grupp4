@@ -6,6 +6,7 @@ import CategoryButton from "../categorybutton/categorybutton";
 
 export default function Startsida() {
   const [selectedDrink, setSelectedDrink] = useState(null);
+  const [selectedCategory, setSelectedCategory] =useState(null);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const handleRating = (value) => setRating(value);
@@ -43,7 +44,10 @@ export default function Startsida() {
           <h1>Drinkrecept</h1>
           <nav>
             {categories.map((cat) => (
-              <CategoryButton key={cat.name}name={cat.name}/>
+              <CategoryButton
+               key={cat.name}
+               name={cat.name}
+               onClick={()=> setSelectedCategory(cat.name)}/>
             ))}
           </nav>
         </div>

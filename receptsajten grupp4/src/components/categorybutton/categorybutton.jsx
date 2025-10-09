@@ -1,8 +1,8 @@
 import './categorybutton.css';
 
-export default function CategoryButton({name}){
+export default function CategoryButton({name,onClick}){
     return(
-        <button className='categorybutton'>
+        <button className='categorybutton' onClick={onClick}>
             {name}
         </button>
     )
