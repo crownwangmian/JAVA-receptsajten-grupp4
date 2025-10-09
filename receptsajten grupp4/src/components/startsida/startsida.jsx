@@ -47,7 +47,7 @@ export default function Startsida() {
               <CategoryButton
                key={cat.name}
                name={cat.name}
-               onClick={()=> setSelectedCategory(cat.name)}/>
+               onClick={() => setSelectedCategory(cat.dbCategory)}/>
             ))}
           </nav>
         </div>
@@ -55,7 +55,9 @@ export default function Startsida() {
 
       {!selectedDrink ? (
         <section className="drink-list">
-          {recipes.map((drink) => (
+          {recipes
+          .filter(drink => !selectedCategory || drink.categories.includes(selectedCategory))
+          .map((drink) => (
             <div
               className="drink-card"
               key={drink.title}
