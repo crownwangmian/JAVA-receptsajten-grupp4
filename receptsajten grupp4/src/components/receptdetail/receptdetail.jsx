@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { getRecipes } from "../../services/recipes";
-import "./Startsida.css";
+import React, { useState } from "react";
 
 const categories = [
   { name: "Gindrinkar", image: "/images/gin.jpg" },
@@ -14,31 +12,6 @@ export default function Startsida() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const handleRating = (value) => setRating(value);
-
-  const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    let mounted = true;
-    setLoading(true);
-    getRecipes()
-      .then(data => {
-        if (mounted) setRecipes(Array.isArray(data) ? data : []);
-      })
-      .catch(err => {
-        console.error(err);
-        if (mounted) setError(err.message || 'Failed to load');
-      })
-      .finally(() => {
-        if (mounted) setLoading(false);
-      });
-    return () => { mounted = false; };
-  }, []);
-
-  if (loading) return <div>Loading recipes…</div>;
-  if (error) return <div>Error: {error}</div>;
-
 
   return (
     <div className="drink-app">
@@ -54,25 +27,7 @@ export default function Startsida() {
         </div>
       </header>
 
-      {!selectedDrink ? (
-        <section className="drink-list">
-          {recipes.map((drink) => (
-            <div
-              className="drink-card"
-              key={drink.title}
-              onClick={() => setSelectedDrink(drink)}
-            >
-              <img src={drink.imageUrl} alt={drink.title} />
-              <div className="drink-info">
-                <h3>{drink.title}</h3>
-                <p>{drink.description}</p>
-                <span>{"⭐".repeat(drink.avgRating)}</span>
-              </div>
-            </div>
-          ))}
-        </section>
-      ) : (
-        <section className="drink-detail">
+      <section className="drink-detail">
           <button className="back" onClick={() => setSelectedDrink(null)}>
             ← Tillbaka
           </button>
@@ -120,7 +75,6 @@ export default function Startsida() {
             <button>Skicka</button>
           </div>
         </section>
-      )}
-    </div>
-  );
+      </div>
+  )
 }
