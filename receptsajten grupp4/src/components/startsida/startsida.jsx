@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getRecipes } from "../../services/recipes";
 import "./Startsida.css";
-
-const categories = [
-  { name: "Gindrinkar", image: "/images/gin.jpg" },
-  { name: "Romdrinkar", image: "/images/rum.jpg" },
-  { name: "Tequiladrinkar", image: "/images/tequila.jpg" },
-  { name: "Vodkadrinkar", image: "/images/vodka.jpg" },
-];
+import { categories } from "../../data/categories";
+import CategoryButton from "../categorybutton/categorybutton";
 
 export default function Startsida() {
   const [selectedDrink, setSelectedDrink] = useState(null);
@@ -48,7 +43,7 @@ export default function Startsida() {
           <h1>Drinkrecept</h1>
           <nav>
             {categories.map((cat) => (
-              <button key={cat.name}>{cat.name}</button>
+              <CategoryButton key={cat.name}name={cat.name}/>
             ))}
           </nav>
         </div>
