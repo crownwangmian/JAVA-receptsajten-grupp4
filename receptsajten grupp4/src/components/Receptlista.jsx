@@ -8,14 +8,6 @@ export default function ReceptLista({ recipe, onClick, index = 0 }) {
 	const displayRating = recipe.avgRating || 0;
 	const isReversed = index % 2 === 1;
 
-	// Difficulty rule: under 5 -> Lätt, exactly 5 -> Mellan, over 5 -> Svår
-	const difficulty =
-		recipe.timeInMins < 5
-			? "Lätt"
-			: recipe.timeInMins === 5
-			? "Mellan"
-			: "Svår";
-
 	return (
 		<article
 			className={`recipe-item ${isReversed ? "reverse" : ""}`}
@@ -30,7 +22,7 @@ export default function ReceptLista({ recipe, onClick, index = 0 }) {
 
 				<div className="difficulty-row">
 					<span className="difficulty-label">Svårighetsgrad:</span>
-					<span className="difficulty">{difficulty}</span>
+					<DifficultyBadge timeInMins={recipe.timeInMins} />
 				</div>
 
 				<p>{recipe.description}</p>

@@ -11,8 +11,6 @@ const categories = [
 ];
 
 export default function Startsida() {
-	// const [selectedDrink, setSelectedDrink] = useState(null);
-
 	const [recipes, setRecipes] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
