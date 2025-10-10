@@ -1,8 +1,10 @@
 import './categorybutton.css';
 
-export default function CategoryButton({name,onClick}){
-    return(
-        <button className='categorybutton' onClick={onClick}>
+export default function CategoryButton({ name, onClick, isActive }) {
+    return (
+        <button
+            className={`categorybutton ${isActive ? 'active' : ''}`}
+            onClick={onClick}>
             {name}
         </button>
     )

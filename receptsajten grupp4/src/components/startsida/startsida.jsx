@@ -45,6 +45,7 @@ export default function Startsida() {
           <nav>
             {categories.map((cat) => (
               <CategoryButton
+                isActive={ selectedCategory===cat.dbCategory}
                 key={cat.name}
                 name={cat.name}
                 onClick={() => setSelectedCategory(
