@@ -42,6 +42,13 @@
   background: rgba(255, 255, 255, 0.4);
 }
 
+.hero nav {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  justify-content: center;
+}
+
 /* Drink List */
 .drink-list {
   display: grid;
