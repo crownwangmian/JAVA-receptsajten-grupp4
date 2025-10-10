@@ -6,7 +6,7 @@ import CategoryButton from "../categorybutton/categorybutton";
 
 export default function Startsida() {
   const [selectedDrink, setSelectedDrink] = useState(null);
-  const [selectedCategory, setSelectedCategory] =useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const handleRating = (value) => setRating(value);
@@ -45,9 +45,10 @@ export default function Startsida() {
           <nav>
             {categories.map((cat) => (
               <CategoryButton
-               key={cat.name}
-               name={cat.name}
-               onClick={() => setSelectedCategory(cat.dbCategory)}/>
+                key={cat.name}
+                name={cat.name}
+                onClick={() => setSelectedCategory(
+                  selectedCategory === cat.dbCategory ? null : cat.dbCategory)} />
             ))}
           </nav>
         </div>
@@ -56,21 +57,21 @@ export default function Startsida() {
       {!selectedDrink ? (
         <section className="drink-list">
           {recipes
-          .filter(drink => !selectedCategory || drink.categories.includes(selectedCategory))
-          .map((drink) => (
-            <div
-              className="drink-card"
-              key={drink.title}
-              onClick={() => setSelectedDrink(drink)}
-            >
-              <img src={drink.imageUrl} alt={drink.title} />
-              <div className="drink-info">
-                <h3>{drink.title}</h3>
-                <p>{drink.description}</p>
-                <span>{"⭐".repeat(drink.avgRating)}</span>
+            .filter(drink => !selectedCategory || drink.categories.includes(selectedCategory))
+            .map((drink) => (
+              <div
+                className="drink-card"
+                key={drink.title}
+                onClick={() => setSelectedDrink(drink)}
+              >
+                <img src={drink.imageUrl} alt={drink.title} />
+                <div className="drink-info">
+                  <h3>{drink.title}</h3>
+                  <p>{drink.description}</p>
+                  <span>{"⭐".repeat(drink.avgRating)}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </section>
       ) : (
         <section className="drink-detail">
