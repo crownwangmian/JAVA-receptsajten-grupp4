@@ -2,18 +2,14 @@ import React, { useState, useEffect } from "react";
 import { getRecipes } from "../services/recipes";
 import ReceptLista from "./Receptlista";
 import "./Startsida.css";
-
-const categories = [
-	{ name: "Gindrinkar", image: "/images/gin.jpg" },
-	{ name: "Romdrinkar", image: "/images/rum.jpg" },
-	{ name: "Tequiladrinkar", image: "/images/tequila.jpg" },
-	{ name: "Vodkadrinkar", image: "/images/vodka.jpg" },
-];
+import Categorybutton from "./categorybutton/categorybutton"
+import { categories } from "../data/categories"
 
 export default function Startsida() {
 	const [recipes, setRecipes] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [selectedCategory, setSelectedCategory] = useState(null);
 
 	useEffect(() => {
 		let mounted = true;
@@ -48,20 +44,29 @@ export default function Startsida() {
 					<h1>Drinkrecept</h1>
 					<nav>
 						{categories.map((cat) => (
-							<button key={cat.name}>{cat.name}</button>
+							<Categorybutton
+								key={cat.name}
+								name={cat.name}
+								onClick={() => setSelectedCategory(
+									selectedCategory === cat.dbCategory ? null : cat.dbCategory
+								)}
+								isActive={selectedCategory === cat.dbCategory}
+							/>
 						))}
 					</nav>
 				</div>
 			</header>
 			<section className="drink-list">
-				{recipes.map((recipe, i) => (
-					<ReceptLista
-						key={recipe.title || recipe._id}
-						recipe={recipe}
-						index={i}
+				{recipes
+					.filter(recipe => !selectedCategory || recipe.categories.includes(selectedCategory))
+					.map((recipe, i) => (
+						<ReceptLista
+							key={recipe.title || recipe._id}
+							recipe={recipe}
+							index={i}
 						// onClick={setSelectedDrink}
-					/>
-				))}
+						/>
+					))}
 			</section>
 		</div>
 	);
