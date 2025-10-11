@@ -3,6 +3,8 @@ import { getRecipes } from "../../services/recipes";
 import "./Startsida.css";
 import { categories } from "../../data/categories";
 import CategoryButton from "../categorybutton/categorybutton";
+import RecipeSearch from "../search/RecipeSearch";
+
 
 export default function Startsida() {
   const [selectedDrink, setSelectedDrink] = useState(null);
