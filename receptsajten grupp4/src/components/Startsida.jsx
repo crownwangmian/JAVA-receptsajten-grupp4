@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getRecipes } from "../services/recipes";
 import ReceptLista from "./Receptlista";
 import "./Startsida.css";
-import Categorybutton from "./categorybutton/categorybutton"
+import Categorybutton from "./categorybutton"
 import { categories } from "../data/categories"
 
 export default function Startsida() {
