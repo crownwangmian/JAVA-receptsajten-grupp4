@@ -5,7 +5,7 @@
 		"ratings": [],
 		"imageUrl": "https://moor.cl/wp-content/uploads/2023/08/moscow-mule-cobre-texturizado-3.jpg",
 		"timeInMins": 5,
-		"price": 110,
+		"price": 2,
 		"categories": ["Vodka"],
 		"instructions": [
 			"Häll vodka och limejuice i ett Moscow Mule-glas.",
@@ -28,7 +28,7 @@
 		"ratings": [],
 		"imageUrl": "https://i.pinimg.com/originals/f3/55/cd/f355cdf0e957d2e1f3b64e0eb8a28180.jpg",
 		"timeInMins": 5,
-		"price": 130,
+		"price": 2,
 		"categories": ["Vodka"],
 		"instructions": [
 			"Fyll ett vinglas rikligt med is.",
@@ -51,7 +51,7 @@
 		"ratings": [],
 		"imageUrl": "https://tse3.mm.bing.net/th/id/OIP.fKhA0exWOBT1-MFxfaz4HgHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
 		"timeInMins": 10,
-		"price": 150,
+		"price": 3,
 		"categories": ["Vodka"],
 		"instructions": [
 			"Dela passionsfrukterna och gröp ur tre av halvorna i en shaker. Spara den sista halvan till garnering.",
@@ -80,7 +80,7 @@
 		"ratings": [],
 		"imageUrl": "https://images.cocktailwave.com/mojito.png",
 		"timeInMins": 5,
-		"price": 120,
+		"price": 2,
 		"categories": ["Rom"],
 		"instructions": [
 			"Häll rom, limejuice och sockerlag i ett highball-glas.",
@@ -107,7 +107,7 @@
 		"ratings": [],
 		"imageUrl": "https://img.freepik.com/premium-photo/frozen-strawberry-daiquiri-cocktail-isolated-white-background_123827-30381.jpg?w=2000",
 		"timeInMins": 5,
-		"price": 125,
+		"price": 2,
 		"categories": ["Rom"],
 		"instructions": [
 			"Muddla jordgubbarna i en shaker.",
@@ -130,7 +130,7 @@
 		"ratings": [],
 		"imageUrl": "https://elcoctelero.com/wp-content/uploads/2020/09/cocktail-mai-tai.jpg",
 		"timeInMins": 5,
-		"price": 140,
+		"price": 2,
 		"categories": ["Rom"],
 		"instructions": [
 			"Fyll ett stort glas med is.",
@@ -157,7 +157,7 @@
 		"ratings": [],
 		"imageUrl": "https://tse4.mm.bing.net/th/id/OIP.OuJ4UOy0MBvOlipxMypAFwHaLH?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
 		"timeInMins": 2,
-		"price": 100,
+		"price": 1,
 		"categories": ["Gin"],
 		"instructions": [
 			"Fyll ett highball-glas med rikligt med is.",
@@ -176,7 +176,7 @@
 		"ratings": [],
 		"imageUrl": "https://tse1.mm.bing.net/th/id/OIP.fQed65wORuJ6ubvJ14v7ugHaLH?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
 		"timeInMins": 5,
-		"price": 130,
+		"price": 2,
 		"categories": ["Gin"],
 		"instructions": [
 			"Häll gin, citronjuice, sockerlag och äggvita i en shaker utan is. Skaka kraftigt tills ett skum bildats (dry shake).",
@@ -197,7 +197,7 @@
 		"ratings": [],
 		"imageUrl": "https://addictedtoallthingspretty.com/wp-content/uploads/2024/11/negroni-cocktail-recipe-1730997960.jpg",
 		"timeInMins": 5,
-		"price": 135,
+		"price": 2,
 		"categories": ["Gin"],
 		"instructions": [
 			"Fyll ett lowball-glas med is.",
@@ -217,7 +217,7 @@
 		"ratings": [],
 		"imageUrl": "https://www.isabeleats.com/wp-content/uploads/2018/02/classic-margarita-recipe-small-5.jpg",
 		"timeInMins": 10,
-		"price": 115,
+		"price": 3,
 		"categories": ["Tequila"],
 		"instructions": [
 			"Fukta glasets kant med en limeklyfta och doppa i flingsalt.",
@@ -239,7 +239,7 @@
 		"ratings": [],
 		"imageUrl": "https://insanelygoodrecipes.com/wp-content/uploads/2024/02/Paloma-Cocktail-in-Glasses.jpg",
 		"timeInMins": 5,
-		"price": 110,
+		"price": 2,
 		"categories": ["Tequila"],
 		"instructions": [
 			"Fyll ett highball-glas med is.",
@@ -258,7 +258,7 @@
 		"ratings": [],
 		"imageUrl": "https://www.shakedrinkrepeat.com/wp-content/uploads/2021/07/tequila-sunrise-7.jpg",
 		"timeInMins": 10,
-		"price": 105,
+		"price": 3,
 		"categories": ["Tequila"],
 		"instructions": [
 			"Fyll ett högt glas med is.",
