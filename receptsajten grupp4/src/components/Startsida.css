@@ -337,3 +337,16 @@ button:hover {
     min-width: 180px;
   }
 }
+/* simple search input style */
+.search-input {
+  width: 240px;
+  height: 28px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.2);
+  outline: none;
+  background: #fff;
+}
+.search-input:focus {
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.08);
+}

@@ -1,0 +1,40 @@
+.hero.hero--detail { min-height: 160px; }
+
+.detail-meta {
+  max-width: 980px; margin: 16px auto 0;
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  padding: 8px 12px;
+}
+.detail-meta .meta-item { display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; }
+.meta-label { color: #666; font-weight: 600; }
+.difficulty-chip { background: #111; color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 0.85rem; }
+.meta-rating .meta-stars span { font-size: 1.1rem; color: #ccc; margin-right: 4px; }
+.meta-rating .meta-stars span.active { color: gold; }
+.meta-rating .meta-score { font-weight: 600; margin-left: 4px; }
+
+.detail-body {
+  max-width: 980px; margin: 24px auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+}
+.detail-col h3 { margin-bottom: 10px; }
+.dot-list { padding-left: 18px; line-height: 1.7; }
+.step-list { padding-left: 20px; line-height: 1.7; }
+
+.detail-feedback { max-width: 980px; margin: 24px auto 48px; }
+.detail-feedback h4 { margin-bottom: 10px; }
+.stars span { font-size: 1.4rem; color: #ccc; cursor: pointer; margin-right: 6px; }
+.stars span.active { color: gold; }
+
+.feedback-form {
+  margin-top: 14px; display: grid; grid-template-columns: 1fr;
+  gap: 10px; max-width: 520px;
+}
+.input { height: 34px; padding: 6px 10px; border-radius: 6px; border: 1px solid #ddd; outline: none; }
+.textarea { min-height: 110px; padding: 8px 10px; border-radius: 6px; border: 1px solid #ddd; outline: none; }
+.btn { width: 86px; justify-self: end; padding: 6px 12px; border-radius: 6px; border: none; background: #111; color: #fff; font-weight: 700; cursor: pointer; }
+.btn:hover { background: #222; }
+
+@media (max-width: 720px) {
+  .detail-body { grid-template-columns: 1fr; }
+  .detail-meta { justify-content: center; }
+}
