@@ -6,6 +6,7 @@ import ReceptLista from "./Receptlista";
 import { categories as CATEGORY_META } from "../data/categories";
 import "./Startsida.css";
 import SearchBar from "./ui/SearchBar.jsx";
+import CategoryButton from "./categorybutton.jsx";
 
 export default function CategoryPage() {
   const { categoryId } = useParams(); // e.g. "gin", "rum", "tequila", "vodka"
@@ -85,6 +86,18 @@ export default function CategoryPage() {
 
         <div className="hero-text">
           <h1 style={{ textTransform: "capitalize" }}>{prettyTitle}</h1>
+          <nav>
+            {CATEGORY_META.map((cat) => {
+              const id = cat.dbCategory.toLowerCase().replace("drinkar", "");
+              return (
+                <CategoryButton
+                  key={cat.name}
+                  name={cat.name}
+                  isActive={categoryId === id}
+                />
+              );
+            })}
+          </nav>
         </div>
       </header>
 
