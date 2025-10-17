@@ -10,11 +10,7 @@ export default function CategoryButton({ name, isActive }) {
   const handleClick = () => {
     // convert category name into lowercase (like "gin", "rum", "vodka")
     const categoryId = name.toLowerCase().replace("drinkar", "");
-    if (isActive) {
-      navigate("/");
-    }else {
-      navigate(`/category/${categoryId}`);
-    }
+    navigate(`/category/${categoryId}`); // go to /category/gin etc.
   };
 
   return (
