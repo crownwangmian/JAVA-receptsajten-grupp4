@@ -2,15 +2,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // ← add
 import RatingStars from "./ui/RatingStars";
-import DifficultyBadge from "./ui/DifficultyBadge";
 
 export default function ReceptLista({ recipe, onClick, index = 0 }) {
+  
+  const navigate = useNavigate();
+
   if (!recipe) return null;
 
   const displayRating = recipe.avgRating || 0;
   const isReversed = index % 2 === 1;
-
-  const navigate = useNavigate(); // ← add
 
   // navigate to /recipe/:id when clicking the "Recept" button
   const goToDetail = (e) => {

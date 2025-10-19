@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function RatingStars({ value = 0, max = 5 }) {
+export default function RatingStars({ value, max = 5 }) {
 	const filled = Math.floor(value);
 	return (
 		<span className="rating" aria-label={`Rating: ${value} of ${max}`}>
