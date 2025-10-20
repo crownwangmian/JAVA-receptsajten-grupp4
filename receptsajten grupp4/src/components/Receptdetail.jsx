@@ -23,10 +23,10 @@ export default function Receptdetail() {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-  fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`)
-    .then(res => res.json())
-    .then(data => setComments(data));
-}, [recipeId]);
+    fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`)
+      .then(res => res.json())
+      .then(data => setComments(data));
+  }, [recipeId]);
 
   useEffect(() => {
     let alive = true;
@@ -55,7 +55,7 @@ export default function Receptdetail() {
   const steps = Array.isArray(recipe.instructions) ? recipe.instructions : [];
   const diff = recipe.difficulty || recipe.svårighetsgrad || "Mellan";
   const avg = Number(recipe.avgRating ?? recipe.rating ?? 0);
-  
+
   async function sendComment() {
     if (!name.trim() || !comment.trim()) {
       alert("Vänligen fyll i både namn och kommentar.");
@@ -66,10 +66,10 @@ export default function Receptdetail() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-        comment: comment.trim(),
-        name: name.trim()
-      })
-    });
+          comment: comment.trim(),
+          name: name.trim()
+        })
+      });
       if (!res.ok) throw new Error("Något gick fel vid skickandet.");
       setName("");
       setComment("");
@@ -140,6 +140,16 @@ export default function Receptdetail() {
             {steps.map((s, idx) => <li key={idx}>{s}</li>)}
           </ol>
         </div>
+      </section>
+
+      <section className="comments-section">
+        <h4>Kommentarer</h4>
+        {comments.map(comment => (
+          <div key={comment.id} className="comment">
+            <strong>{comment.name}</strong>
+            <p>{comment.comment}</p>
+          </div>
+        ))}
       </section>
 
       {/* Frame 4：反馈区 */}
