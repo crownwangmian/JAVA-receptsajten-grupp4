@@ -56,6 +56,32 @@ export default function Receptdetail() {
 	const price = recipe.price || recipe.svårighetsgrad || "Mellan";
 	const avg = Number(recipe.avgRating ?? recipe.rating ?? 0);
 
+	async function sendComment() {
+		if (!name.trim() || !comment.trim()) {
+			alert("Vänligen fyll i både namn och kommentar.");
+			return;
+		}
+		try {
+			const res = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					name: name.trim(),
+					comment: comment.trim()
+				})
+			});
+			if (!res.ok) {
+				const err = await res.json().catch(() => null);
+				throw new Error((err && (err.error || err.message)) || "Kunde inte skicka kommentar");
+			}
+			setName("");
+			setComment("");
+			alert("Kommentar skickad");
+		} catch (e) {
+			alert(e.message || "Något gick fel vid skickandet.");
+		}
+	}
+
 	return (
 		<div className="drink-app">
 			{/* Frame 1：头部大图 + 搜索 + 标题 */}
@@ -95,15 +121,15 @@ export default function Receptdetail() {
 					</div>
 					<div className="meta-item meta-diff">
 						<span className="meta-label">Svårighetsgrad:</span>
-            <DifficultyBadge price={price} />
+						<DifficultyBadge price={price} />
 					</div>
 					<div className="meta-item meta-rating">
-            [
+						[
 						<span className="meta-stars">
 							<RatingStars value={avg} />
 						</span>
 						<span className="meta-score">{avg.toFixed(1)}</span>
-            ]
+						]
 					</div>
 				</div>
 			</section>
@@ -115,11 +141,11 @@ export default function Receptdetail() {
 					<ul className="dot-list">
 						{ings.map((i, idx) => (
 							<li key={idx}>
-                {
-                  typeof i === "string" ? i :
-                  (i?.amount + " " + i?.unit + " " + i?.name) || ""
-                }
-              </li>
+								{
+									typeof i === "string" ? i :
+										(i?.amount + " " + i?.unit + " " + i?.name) || ""
+								}
+							</li>
 						))}
 					</ul>
 				</div>
@@ -152,7 +178,7 @@ export default function Receptdetail() {
 				</div>
 
 				<div className="feedback-form">
-          Lämna gärna en kommentar
+					Lämna gärna en kommentar
 					<input
 						className="input"
 						placeholder="Namn..."
