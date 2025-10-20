@@ -83,6 +83,12 @@
   list-style: none;
 }
 
+.comment-meta {
+  color: #666;
+  font-size: 0.9em;
+  margin: 4px 0;
+}
+
 .detail-feedback {
 	max-width: 980px;
 	margin: 24px auto 48px;
