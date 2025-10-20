@@ -1,5 +1,5 @@
 // src/components/Receptdetail.jsx
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getRecipes } from "../services/recipes";
 import SearchBar from "./ui/SearchBar.jsx";
@@ -21,6 +21,12 @@ export default function Receptdetail() {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [query, setQuery] = useState("");
+
+  useEffect(() => {
+  fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`)
+    .then(res => res.json())
+    .then(data => setComments(data));
+}, [recipeId]);
 
   useEffect(() => {
     let alive = true;
