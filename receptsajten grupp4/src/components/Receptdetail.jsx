@@ -55,11 +55,14 @@ export default function Receptdetail() {
       return;
     }
     try {
-      const res = await fetch(`/api/recipes/${recipeId}/comments`, {
+      const res = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), comment: comment.trim()})
-      });
+        body: JSON.stringify({
+        comment: comment.trim(),
+        name: name.trim()
+      })
+    });
       if (!res.ok) throw new Error("Något gick fel vid skickandet.");
       setName("");
       setComment("");
