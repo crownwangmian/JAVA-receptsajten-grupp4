@@ -37,17 +37,17 @@ export default function Receptdetail() {
   }, [recipeId]);
 
   if (loading) return <div style={{ padding: 16 }}>Loading…</div>;
-  if (error)   return <div style={{ padding: 16, color: "crimson" }}>Error: {error}</div>;
+  if (error) return <div style={{ padding: 16, color: "crimson" }}>Error: {error}</div>;
   if (!recipe) return <div style={{ padding: 16 }}>Receptet hittades inte.</div>;
 
   // 展示字段准备
   const title = recipe.title || recipe.name || "Mojito";
-  const img   = recipe.imageUrl || recipe.image || "/hero.jpg";
-  const mins  = recipe.timeInMins ?? recipe.time ?? 0;
-  const ings  = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
+  const img = recipe.imageUrl || recipe.image || "/hero.jpg";
+  const mins = recipe.timeInMins ?? recipe.time ?? 0;
+  const ings = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
   const steps = Array.isArray(recipe.instructions) ? recipe.instructions : [];
-  const diff  = recipe.difficulty || recipe.svårighetsgrad || "Mellan";
-  const avg   = Number(recipe.avgRating ?? recipe.rating ?? 0);
+  const diff = recipe.difficulty || recipe.svårighetsgrad || "Mellan";
+  const avg = Number(recipe.avgRating ?? recipe.rating ?? 0);
 
   return (
     <div className="drink-app">
@@ -116,7 +116,7 @@ export default function Receptdetail() {
         <h4>Vad tyckte du om receptet?</h4>
 
         <div className="stars">
-          {[1,2,3,4,5].map((star) => (
+          {[1, 2, 3, 4, 5].map((star) => (
             <span
               key={star}
               className={star <= rating ? "active" : ""}
@@ -125,7 +125,7 @@ export default function Receptdetail() {
             >★</span>
           ))}
         </div>
-
+        <h4>Lämna gärna en kommentar!</h4>
         <div className="feedback-form">
           <input
             className="input"
