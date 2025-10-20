@@ -19,6 +19,7 @@ export default function Receptdetail() {
   const [rating, setRating] = useState(0);
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
