@@ -21,6 +21,15 @@ export default function Receptdetail() {
 	const [name, setName] = useState("");
 	const [comment, setComment] = useState("");
 	const [query, setQuery] = useState("");
+	const [comments, setComments] = useState([]);
+
+	useEffect(() => {
+    if (!recipeId) return;
+    fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`)
+      .then((res) => res.json())
+      .then((data) => setComments(Array.isArray(data) ? data : []))
+      .catch(() => setComments([]));
+  }, [recipeId]);
 
 	useEffect(() => {
 		let alive = true;
