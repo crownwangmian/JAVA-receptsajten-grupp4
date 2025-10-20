@@ -149,10 +149,11 @@ export default function Receptdetail() {
 
       <section className="comments-section">
         <h4>Kommentarer</h4>
-        {comments.map(comment => (
-          <div key={comment.id} className="comment">
-            <strong>{comment.name}</strong>
-            <p>{comment.comment}</p>
+        {comments.map(c => (
+          <div key={c.id || c._id} className="comment">
+            <strong>{c.name}</strong>
+            <div className="comment-meta">{c.createdAt ? new Date(c.createdAt).toLocaleString() : ''}</div>
+            <p>{c.comment}</p>
           </div>
         ))}
       </section>
