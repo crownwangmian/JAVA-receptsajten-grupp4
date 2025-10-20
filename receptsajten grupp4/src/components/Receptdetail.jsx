@@ -48,6 +48,27 @@ export default function Receptdetail() {
   const steps = Array.isArray(recipe.instructions) ? recipe.instructions : [];
   const diff = recipe.difficulty || recipe.svårighetsgrad || "Mellan";
   const avg = Number(recipe.avgRating ?? recipe.rating ?? 0);
+  
+  async function sendComment() {
+    if (!name.trim() || !comment.trim()) {
+      alert("Vänligen fyll i både namn och kommentar.");
+      return;
+    }
+    try {
+      const res = await fetch(`/api/recipes/${recipeId}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name.trim(), comment: comment.trim()})
+      });
+      if (!res.ok) throw new Error("Något gick fel vid skickandet.");
+      setName("");
+      setComment("");
+      alert("Tack för din kommentar!");
+    } catch (e) {
+      alert(e.message || "Något gick fel vid skickandet.");
+    }
+
+  }
 
   return (
     <div className="drink-app">
@@ -139,7 +160,7 @@ export default function Receptdetail() {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          <button className="btn" onClick={() => alert("Tack för din kommentar!")}>Skicka</button>
+          <button className="btn" onClick={(sendComment)}>Skicka</button>
         </div>
       </section>
     </div>
