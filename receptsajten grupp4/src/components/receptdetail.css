@@ -34,6 +34,12 @@
 .btn { width: 86px; justify-self: end; padding: 6px 12px; border-radius: 6px; border: none; background: #111; color: #fff; font-weight: 700; cursor: pointer; }
 .btn:hover { background: #222; }
 
+.comment-meta {
+  color: #666;
+  font-size: 0.9em;
+  margin: 4px 0;
+}
+
 @media (max-width: 720px) {
   .detail-body { grid-template-columns: 1fr; }
   .detail-meta { justify-content: center; }
