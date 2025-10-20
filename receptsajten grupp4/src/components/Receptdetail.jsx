@@ -71,6 +71,11 @@ export default function Receptdetail() {
         })
       });
       if (!res.ok) throw new Error("Något gick fel vid skickandet.");
+
+      const commentsRes = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`);
+      const newComments = await commentsRes.json();
+      setComments(newComments);
+
       setName("");
       setComment("");
       alert("Tack för din kommentar!");
