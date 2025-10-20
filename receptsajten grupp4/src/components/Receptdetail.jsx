@@ -85,6 +85,11 @@ export default function Receptdetail() {
 			}
 			setName("");
 			setComment("");
+
+			const commentsRes = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`);
+			const newComments = await commentsRes.json();
+			setComments(Array.isArray(newComments) ? newComments : []);
+
 			alert("Kommentar skickad");
 		} catch (e) {
 			alert(e.message || "Något gick fel vid skickandet.");
