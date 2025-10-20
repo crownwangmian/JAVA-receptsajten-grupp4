@@ -24,12 +24,12 @@ export default function Receptdetail() {
 	const [comments, setComments] = useState([]);
 
 	useEffect(() => {
-    if (!recipeId) return;
-    fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`)
-      .then((res) => res.json())
-      .then((data) => setComments(Array.isArray(data) ? data : []))
-      .catch(() => setComments([]));
-  }, [recipeId]);
+		if (!recipeId) return;
+		fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`)
+			.then((res) => res.json())
+			.then((data) => setComments(Array.isArray(data) ? data : []))
+			.catch(() => setComments([]));
+	}, [recipeId]);
 
 	useEffect(() => {
 		let alive = true;
@@ -167,6 +167,19 @@ export default function Receptdetail() {
 						))}
 					</ol>
 				</div>
+			</section>
+
+			<section className="comments-section">
+				<h4>Kommentarer</h4>
+				{comments.map((c) => (
+					<div key={c.id || c._id} className="comment">
+						<strong>{c.name}</strong>
+						<div className="comment-meta">
+							{c.createdAt ? new Date(c.createdAt).toLocaleString() : ""}
+						</div>
+						<p>{c.comment}</p>
+					</div>
+				))}
 			</section>
 
 			{/* Frame 4：反馈区 */}
