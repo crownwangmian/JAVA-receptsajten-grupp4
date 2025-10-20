@@ -139,7 +139,7 @@ export default function Receptdetail() {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          <button className="btn" onClick={() => alert("Skickat!")}>Skicka</button>
+          <button className="btn" onClick={() => alert("Tack för din kommentar!")}>Skicka</button>
         </div>
       </section>
     </div>
