@@ -79,29 +79,40 @@ export default function Receptdetail() {
 			? ratingsArray.reduce((a, b) => a + b, 0) / ratingsArray.length
 			: 0;
 
+	// When the user has submitted a rating, lock further interactions and show
+	// the average (read-only). Otherwise show the temporary selection.
+	const displayRating = hasRated ? Math.round(avg) : rating;
+
 	async function sendComment() {
 		if (!name.trim() || !comment.trim()) {
 			alert("Vänligen fyll i både namn och kommentar.");
 			return;
 		}
 		try {
-			const res = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					name: name.trim(),
-					comment: comment.trim()
-				})
-			});
+			const res = await fetch(
+				`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`,
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						name: name.trim(),
+						comment: comment.trim(),
+					}),
+				}
+			);
 			if (!res.ok) {
 				const err = await res.json().catch(() => null);
-				throw new Error((err && (err.error || err.message)) || "Kunde inte skicka kommentar");
+				throw new Error(
+					(err && (err.error || err.message)) || "Kunde inte skicka kommentar"
+				);
 			}
 			setName("");
 			setComment("");
 			setIsSubmitted(true);
 
-			const commentsRes = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`);
+			const commentsRes = await fetch(
+				`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`
+			);
 			const newComments = await commentsRes.json();
 			setComments(Array.isArray(newComments) ? newComments : []);
 
@@ -157,8 +168,7 @@ export default function Receptdetail() {
 						<span className="meta-stars">
 							<RatingStars value={avg} />
 						</span>
-						<span className="meta-score">{avg.toFixed(1)}</span>
-						]
+						<span className="meta-score">{avg.toFixed(1)}</span>]
 					</div>
 				</div>
 			</section>
@@ -170,10 +180,9 @@ export default function Receptdetail() {
 					<ul className="dot-list">
 						{ings.map((i, idx) => (
 							<li key={idx}>
-								{
-									typeof i === "string" ? i :
-										(i?.amount + " " + i?.unit + " " + i?.name) || ""
-								}
+								{typeof i === "string"
+									? i
+									: i?.amount + " " + i?.unit + " " + i?.name || ""}
 							</li>
 						))}
 					</ul>
@@ -184,9 +193,9 @@ export default function Receptdetail() {
 					<ol className="step-list">
 						{steps.map((s, idx) => (
 							<li key={idx}>
-                <input type="checkbox" name={`step[${idx}]`} value="1" />
-                {s}
-              </li>
+								<input type="checkbox" name={`step[${idx}]`} value="1" />
+								{s}
+							</li>
 						))}
 					</ol>
 				</div>
@@ -213,11 +222,11 @@ export default function Receptdetail() {
 					{[1, 2, 3, 4, 5].map((star) => (
 						<span
 							key={star}
-							className={`${star <= rating ? "active" : ""}${
+							className={`${star <= displayRating ? "active" : ""}${
 								hasRated ? " disabled" : ""
 							}`}
 							onClick={async () => {
-								if (hasRated) return; // already rated this session
+								if (hasRated) return; // already rated this session — locked
 								// set local selection immediately
 								setRating(star);
 								try {
@@ -253,7 +262,11 @@ export default function Receptdetail() {
 										setRecipe({ ...recipe, avgRating: newRatings });
 									}
 
+									// Lock the rating so the user cannot rate again on this page.
 									setHasRated(true);
+									// Clear the temporary selection so the UI shows the average instead
+									// of the clicked star on this page.
+									setRating(0);
 									setRatedMessage("Tack! Du har betygsatt detta recept.");
 								} catch (e) {
 									console.error(e);
@@ -261,6 +274,8 @@ export default function Receptdetail() {
 								}
 							}}
 							role="button"
+							aria-disabled={hasRated}
+							style={{ pointerEvents: hasRated ? "none" : undefined }}
 						>
 							☆
 						</span>

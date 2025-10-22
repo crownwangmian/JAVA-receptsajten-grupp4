@@ -35,5 +35,18 @@ export async function postRating(id, rating) {
 		const text = await res.text();
 		throw new Error(`Failed to post rating: ${res.status} ${text}`);
 	}
-	return res.json();
+	// Some servers return an empty body (204/empty) on success. Avoid calling
+	// res.json() directly which throws on empty responses. Read text first,
+	// then parse if non-empty and of JSON content-type.
+	try {
+		const text = await res.text();
+		if (!text) return null;
+		// Try to parse JSON; if parsing fails, return null so caller can
+		// gracefully fallback to local updates.
+		return JSON.parse(text);
+	} catch (e) {
+		// If we can't parse, return null instead of throwing a JSON error.
+		console.warn("postRating: failed to parse JSON response", e);
+		return null;
+	}
 }

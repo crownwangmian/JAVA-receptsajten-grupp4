@@ -20,7 +20,7 @@
 			{ "name": "Lime", "amount": 1, "unit": "st" },
 			{ "name": "Mynta", "amount": 1, "unit": "st" }
 		],
-		"avgRating": null
+		"avgRating": []
 	},
 	{
 		"title": "Pink Spritz",
