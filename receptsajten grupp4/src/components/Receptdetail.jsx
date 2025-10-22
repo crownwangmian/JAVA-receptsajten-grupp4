@@ -21,6 +21,16 @@ export default function Receptdetail() {
 	const [name, setName] = useState("");
 	const [comment, setComment] = useState("");
 	const [query, setQuery] = useState("");
+	const [comments, setComments] = useState([]);
+	const [isSubmitted, setIsSubmitted] = useState(false);
+
+	useEffect(() => {
+		if (!recipeId) return;
+		fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`)
+			.then((res) => res.json())
+			.then((data) => setComments(Array.isArray(data) ? data : []))
+			.catch(() => setComments([]));
+	}, [recipeId]);
 
 	useEffect(() => {
 		let alive = true;
@@ -55,6 +65,38 @@ export default function Receptdetail() {
 	const steps = Array.isArray(recipe.instructions) ? recipe.instructions : [];
 	const price = recipe.price || recipe.svårighetsgrad || "Mellan";
 	const avg = Number(recipe.avgRating ?? recipe.rating ?? 0);
+
+	async function sendComment() {
+		if (!name.trim() || !comment.trim()) {
+			alert("Vänligen fyll i både namn och kommentar.");
+			return;
+		}
+		try {
+			const res = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					name: name.trim(),
+					comment: comment.trim()
+				})
+			});
+			if (!res.ok) {
+				const err = await res.json().catch(() => null);
+				throw new Error((err && (err.error || err.message)) || "Kunde inte skicka kommentar");
+			}
+			setName("");
+			setComment("");
+			setIsSubmitted(true);
+
+			const commentsRes = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`);
+			const newComments = await commentsRes.json();
+			setComments(Array.isArray(newComments) ? newComments : []);
+
+			alert("Kommentar skickad");
+		} catch (e) {
+			alert(e.message || "Något gick fel vid skickandet.");
+		}
+	}
 
 	return (
 		<div className="drink-app">
@@ -95,15 +137,15 @@ export default function Receptdetail() {
 					</div>
 					<div className="meta-item meta-diff">
 						<span className="meta-label">Svårighetsgrad:</span>
-            <DifficultyBadge price={price} />
+						<DifficultyBadge price={price} />
 					</div>
 					<div className="meta-item meta-rating">
-            [
+						[
 						<span className="meta-stars">
 							<RatingStars value={avg} />
 						</span>
 						<span className="meta-score">{avg.toFixed(1)}</span>
-            ]
+						]
 					</div>
 				</div>
 			</section>
@@ -115,11 +157,11 @@ export default function Receptdetail() {
 					<ul className="dot-list">
 						{ings.map((i, idx) => (
 							<li key={idx}>
-                {
-                  typeof i === "string" ? i :
-                  (i?.amount + " " + i?.unit + " " + i?.name) || ""
-                }
-              </li>
+								{
+									typeof i === "string" ? i :
+										(i?.amount + " " + i?.unit + " " + i?.name) || ""
+								}
+							</li>
 						))}
 					</ul>
 				</div>
@@ -128,10 +170,26 @@ export default function Receptdetail() {
 					<h3>Instruktioner</h3>
 					<ol className="step-list">
 						{steps.map((s, idx) => (
-							<li key={idx}>{s}</li>
+							<li key={idx}>
+                <input type="checkbox" name={`step[${idx}]`} value="1" />
+                {s}
+              </li>
 						))}
 					</ol>
 				</div>
+			</section>
+
+			<section className="comments-section">
+				<h4>Kommentarer</h4>
+				{comments.map((c) => (
+					<div key={c.id || c._id} className="comment">
+						<strong>{c.name}</strong>
+						<div className="comment-meta">
+							{c.createdAt ? new Date(c.createdAt).toLocaleString() : ""}
+						</div>
+						<p>{c.comment}</p>
+					</div>
+				))}
 			</section>
 
 			{/* Frame 4：反馈区 */}
@@ -152,20 +210,22 @@ export default function Receptdetail() {
 				</div>
 
 				<div className="feedback-form">
-          Lämna gärna en kommentar
+					Lämna gärna en kommentar
 					<input
 						className="input"
 						placeholder="Namn..."
 						value={name}
 						onChange={(e) => setName(e.target.value)}
+						disabled={isSubmitted}
 					/>
 					<textarea
 						className="textarea"
 						placeholder="Kommentar..."
 						value={comment}
 						onChange={(e) => setComment(e.target.value)}
+						disabled={isSubmitted}
 					/>
-					<button className="btn" onClick={() => alert("Skickat!")}>
+					<button className="btn" onClick={sendComment} disabled={isSubmitted}>
 						Skicka
 					</button>
 				</div>
