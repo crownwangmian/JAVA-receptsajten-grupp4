@@ -87,7 +87,6 @@ export default function Receptdetail() {
 			setName("");
 			setComment("");
 			setIsSubmitted(true);
-			
 
 			const commentsRes = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`);
 			const newComments = await commentsRes.json();
@@ -217,15 +216,17 @@ export default function Receptdetail() {
 						placeholder="Namn..."
 						value={name}
 						onChange={(e) => setName(e.target.value)}
+						disabled={isSubmitted}
 					/>
 					<textarea
 						className="textarea"
 						placeholder="Kommentar..."
 						value={comment}
 						onChange={(e) => setComment(e.target.value)}
+						disabled={isSubmitted}
 					/>
-					<button className="btn" onClick={sendComment}>
-						Skicka
+					<button className="btn" onClick={sendComment} disabled={isSubmitted}>
+						{isSubmitted ? "Tack för din kommentar!" : "Skicka kommentar"}
 					</button>
 				</div>
 			</section>
