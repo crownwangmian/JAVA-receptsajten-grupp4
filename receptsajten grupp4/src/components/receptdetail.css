@@ -145,6 +145,12 @@
 	background: #222;
 }
 
+input[type="checkbox"] {
+  transform: scale(1.5);
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
 @media (max-width: 720px) {
 	.detail-body {
 		grid-template-columns: 1fr;

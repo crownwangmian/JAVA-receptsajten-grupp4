@@ -168,7 +168,10 @@ export default function Receptdetail() {
 					<h3>Instruktioner</h3>
 					<ol className="step-list">
 						{steps.map((s, idx) => (
-							<li key={idx}>{s}</li>
+							<li key={idx}>
+                <input type="checkbox" name={`step[${idx}]`} value="1" />
+                {s}
+              </li>
 						))}
 					</ol>
 				</div>
