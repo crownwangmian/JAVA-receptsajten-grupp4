@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"; // ← add
 import RatingStars from "./ui/RatingStars";
 
 export default function ReceptLista({ recipe, onClick, index = 0 }) {
-  
+
   const navigate = useNavigate();
 
   if (!recipe) return null;
@@ -36,7 +36,10 @@ export default function ReceptLista({ recipe, onClick, index = 0 }) {
         <h3>{recipe.title}</h3>
 
         <p>{recipe.description}</p>
-
+        <p>
+          Den består av&nbsp;
+          {recipe.ingredients.map(ingredient => ingredient.name).join(", ")}
+        </p>
         <div className="recipe-meta">
           <span className="time">
             Förberedningstid: {recipe.timeInMins} min

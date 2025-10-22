@@ -1,7 +1,7 @@
 // src/components/Receptdetail.jsx
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getRecipes } from "../services/recipes";
+import { getRecipes, postRating, updateRecipe } from "../services/recipes";
 import SearchBar from "./ui/SearchBar.jsx";
 import DifficultyBadge from "./ui/DifficultyBadge"; // 若没有可先删掉这行与下方组件
 import "./Startsida.css"; // 你已有
@@ -20,6 +20,8 @@ export default function Receptdetail() {
 	const [rating, setRating] = useState(0);
 	const [name, setName] = useState("");
 	const [comment, setComment] = useState("");
+	const [hasRated, setHasRated] = useState(false);
+	const [ratedMessage, setRatedMessage] = useState("");
 	const [query, setQuery] = useState("");
 
 	useEffect(() => {
@@ -54,7 +56,18 @@ export default function Receptdetail() {
 	const ings = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
 	const steps = Array.isArray(recipe.instructions) ? recipe.instructions : [];
 	const price = recipe.price || recipe.svårighetsgrad || "Mellan";
-	const avg = Number(recipe.avgRating ?? recipe.rating ?? 0);
+
+	// avgRating may be stored as an array of numeric ratings or a single number
+	const ratingsArray = Array.isArray(recipe.avgRating)
+		? recipe.avgRating.map((n) => Number(n)).filter((n) => !Number.isNaN(n))
+		: typeof recipe.avgRating === "number"
+		? [Number(recipe.avgRating)]
+		: [];
+
+	const avg =
+		ratingsArray.length > 0
+			? ratingsArray.reduce((a, b) => a + b, 0) / ratingsArray.length
+			: 0;
 
 	return (
 		<div className="drink-app">
@@ -95,15 +108,14 @@ export default function Receptdetail() {
 					</div>
 					<div className="meta-item meta-diff">
 						<span className="meta-label">Svårighetsgrad:</span>
-            <DifficultyBadge price={price} />
+						<DifficultyBadge price={price} />
 					</div>
 					<div className="meta-item meta-rating">
-            [
+						[
 						<span className="meta-stars">
 							<RatingStars value={avg} />
 						</span>
-						<span className="meta-score">{avg.toFixed(1)}</span>
-            ]
+						<span className="meta-score">{avg.toFixed(1)}</span>]
 					</div>
 				</div>
 			</section>
@@ -115,11 +127,10 @@ export default function Receptdetail() {
 					<ul className="dot-list">
 						{ings.map((i, idx) => (
 							<li key={idx}>
-                {
-                  typeof i === "string" ? i :
-                  (i?.amount + " " + i?.unit + " " + i?.name) || ""
-                }
-              </li>
+								{typeof i === "string"
+									? i
+									: i?.amount + " " + i?.unit + " " + i?.name || ""}
+							</li>
 						))}
 					</ul>
 				</div>
@@ -142,17 +153,63 @@ export default function Receptdetail() {
 					{[1, 2, 3, 4, 5].map((star) => (
 						<span
 							key={star}
-							className={star <= rating ? "active" : ""}
-							onClick={() => setRating(star)}
+							className={`${star <= rating ? "active" : ""}${
+								hasRated ? " disabled" : ""
+							}`}
+							onClick={async () => {
+								if (hasRated) return; // already rated this session
+								// set local selection immediately
+								setRating(star);
+								try {
+									const id = recipe._id ?? recipe.id;
+									if (!id) throw new Error("Recipe id missing");
+
+									// Send single rating to server
+									const resp = await postRating(id, Number(star));
+
+									// If server returns updated recipe or ratings, use it
+									if (resp && resp.avgRating !== undefined) {
+										// server returned avgRating — it may be a number or an array
+										if (typeof resp.avgRating === "number") {
+											// convert scalar to array and persist to DB so future clients see array
+											const arr = [Number(resp.avgRating)];
+											try {
+												await updateRecipe(id, { avgRating: arr });
+												setRecipe({ ...recipe, avgRating: arr });
+											} catch {
+												// if patch fails, still set local state to array for UI consistency
+												setRecipe({ ...recipe, avgRating: arr });
+											}
+										} else {
+											// assume server returned an array
+											setRecipe({ ...recipe, avgRating: resp.avgRating });
+										}
+									} else if (resp && resp.ratings) {
+										setRecipe({ ...recipe, avgRating: resp.ratings });
+									} else {
+										// fallback: append locally
+										const newRatings = Array.from(ratingsArray);
+										newRatings.push(Number(star));
+										setRecipe({ ...recipe, avgRating: newRatings });
+									}
+
+									setHasRated(true);
+									setRatedMessage("Tack! Du har betygsatt detta recept.");
+								} catch (e) {
+									console.error(e);
+									setRatedMessage("Kunde inte spara omdömet. Försök igen.");
+								}
+							}}
 							role="button"
 						>
 							☆
 						</span>
 					))}
 				</div>
+				{ratedMessage && <div className="rated-message">{ratedMessage}</div>}
 
 				<div className="feedback-form">
-          Lämna gärna en kommentar
+					Lämna gärna en kommentar
 					<input
 						className="input"
 						placeholder="Namn..."
@@ -165,8 +222,13 @@ export default function Receptdetail() {
 						value={comment}
 						onChange={(e) => setComment(e.target.value)}
 					/>
-					<button className="btn" onClick={() => alert("Skickat!")}>
-						Skicka
+					<button
+						className="btn"
+						onClick={() =>
+							alert("Kommentarsfunktion inte implementerad i detta demo.")
+						}
+					>
+						Skicka kommentar
 					</button>
 				</div>
 			</section>
