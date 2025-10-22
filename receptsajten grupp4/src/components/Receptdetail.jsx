@@ -226,7 +226,7 @@ export default function Receptdetail() {
 						disabled={isSubmitted}
 					/>
 					<button className="btn" onClick={sendComment} disabled={isSubmitted}>
-						{isSubmitted ? "Tack för din kommentar!" : "Skicka kommentar"}
+						Skicka
 					</button>
 				</div>
 			</section>
