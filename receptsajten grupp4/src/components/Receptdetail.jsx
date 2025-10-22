@@ -1,7 +1,7 @@
 // src/components/Receptdetail.jsx
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getRecipes } from "../services/recipes";
+import { getRecipes, postRating, updateRecipe } from "../services/recipes";
 import SearchBar from "./ui/SearchBar.jsx";
 import DifficultyBadge from "./ui/DifficultyBadge"; // 若没有可先删掉这行与下方组件
 import "./Startsida.css"; // 你已有
@@ -20,6 +20,8 @@ export default function Receptdetail() {
 	const [rating, setRating] = useState(0);
 	const [name, setName] = useState("");
 	const [comment, setComment] = useState("");
+	const [hasRated, setHasRated] = useState(false);
+	const [ratedMessage, setRatedMessage] = useState("");
 	const [query, setQuery] = useState("");
 	const [comments, setComments] = useState([]);
 	const [isSubmitted, setIsSubmitted] = useState(false);
@@ -64,7 +66,22 @@ export default function Receptdetail() {
 	const ings = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
 	const steps = Array.isArray(recipe.instructions) ? recipe.instructions : [];
 	const price = recipe.price || recipe.svårighetsgrad || "Mellan";
-	const avg = Number(recipe.avgRating ?? recipe.rating ?? 0);
+
+	// avgRating may be stored as an array of numeric ratings or a single number
+	const ratingsArray = Array.isArray(recipe.avgRating)
+		? recipe.avgRating.map((n) => Number(n)).filter((n) => !Number.isNaN(n))
+		: typeof recipe.avgRating === "number"
+		? [Number(recipe.avgRating)]
+		: [];
+
+	const avg =
+		ratingsArray.length > 0
+			? ratingsArray.reduce((a, b) => a + b, 0) / ratingsArray.length
+			: 0;
+
+	// When the user has submitted a rating, lock further interactions and show
+	// the average (read-only). Otherwise show the temporary selection.
+	const displayRating = hasRated ? Math.round(avg) : rating;
 
 	async function sendComment() {
 		if (!name.trim() || !comment.trim()) {
@@ -72,23 +89,30 @@ export default function Receptdetail() {
 			return;
 		}
 		try {
-			const res = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					name: name.trim(),
-					comment: comment.trim()
-				})
-			});
+			const res = await fetch(
+				`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`,
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						name: name.trim(),
+						comment: comment.trim(),
+					}),
+				}
+			);
 			if (!res.ok) {
 				const err = await res.json().catch(() => null);
-				throw new Error((err && (err.error || err.message)) || "Kunde inte skicka kommentar");
+				throw new Error(
+					(err && (err.error || err.message)) || "Kunde inte skicka kommentar"
+				);
 			}
 			setName("");
 			setComment("");
 			setIsSubmitted(true);
 
-			const commentsRes = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`);
+			const commentsRes = await fetch(
+				`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`
+			);
 			const newComments = await commentsRes.json();
 			setComments(Array.isArray(newComments) ? newComments : []);
 
@@ -144,8 +168,7 @@ export default function Receptdetail() {
 						<span className="meta-stars">
 							<RatingStars value={avg} />
 						</span>
-						<span className="meta-score">{avg.toFixed(1)}</span>
-						]
+						<span className="meta-score">{avg.toFixed(1)}</span>]
 					</div>
 				</div>
 			</section>
@@ -157,10 +180,9 @@ export default function Receptdetail() {
 					<ul className="dot-list">
 						{ings.map((i, idx) => (
 							<li key={idx}>
-								{
-									typeof i === "string" ? i :
-										(i?.amount + " " + i?.unit + " " + i?.name) || ""
-								}
+								{typeof i === "string"
+									? i
+									: i?.amount + " " + i?.unit + " " + i?.name || ""}
 							</li>
 						))}
 					</ul>
@@ -171,9 +193,9 @@ export default function Receptdetail() {
 					<ol className="step-list">
 						{steps.map((s, idx) => (
 							<li key={idx}>
-                <input type="checkbox" name={`step[${idx}]`} value="1" />
-                {s}
-              </li>
+								<input type="checkbox" name={`step[${idx}]`} value="1" />
+								{s}
+							</li>
 						))}
 					</ol>
 				</div>
@@ -200,14 +222,66 @@ export default function Receptdetail() {
 					{[1, 2, 3, 4, 5].map((star) => (
 						<span
 							key={star}
-							className={star <= rating ? "active" : ""}
-							onClick={() => setRating(star)}
+							className={`${star <= displayRating ? "active" : ""}${
+								hasRated ? " disabled" : ""
+							}`}
+							onClick={async () => {
+								if (hasRated) return; // already rated this session — locked
+								// set local selection immediately
+								setRating(star);
+								try {
+									const id = recipe._id ?? recipe.id;
+									if (!id) throw new Error("Recipe id missing");
+
+									// Send single rating to server
+									const resp = await postRating(id, Number(star));
+
+									// If server returns updated recipe or ratings, use it
+									if (resp && resp.avgRating !== undefined) {
+										// server returned avgRating — it may be a number or an array
+										if (typeof resp.avgRating === "number") {
+											// convert scalar to array and persist to DB so future clients see array
+											const arr = [Number(resp.avgRating)];
+											try {
+												await updateRecipe(id, { avgRating: arr });
+												setRecipe({ ...recipe, avgRating: arr });
+											} catch {
+												// if patch fails, still set local state to array for UI consistency
+												setRecipe({ ...recipe, avgRating: arr });
+											}
+										} else {
+											// assume server returned an array
+											setRecipe({ ...recipe, avgRating: resp.avgRating });
+										}
+									} else if (resp && resp.ratings) {
+										setRecipe({ ...recipe, avgRating: resp.ratings });
+									} else {
+										// fallback: append locally
+										const newRatings = Array.from(ratingsArray);
+										newRatings.push(Number(star));
+										setRecipe({ ...recipe, avgRating: newRatings });
+									}
+
+									// Lock the rating so the user cannot rate again on this page.
+									setHasRated(true);
+									// Clear the temporary selection so the UI shows the average instead
+									// of the clicked star on this page.
+									setRating(0);
+									setRatedMessage("Tack! Du har betygsatt detta recept.");
+								} catch (e) {
+									console.error(e);
+									setRatedMessage("Kunde inte spara omdömet. Försök igen.");
+								}
+							}}
 							role="button"
+							aria-disabled={hasRated}
+							style={{ pointerEvents: hasRated ? "none" : undefined }}
 						>
 							☆
 						</span>
 					))}
 				</div>
+				{ratedMessage && <div className="rated-message">{ratedMessage}</div>}
 
 				<div className="feedback-form">
 					Lämna gärna en kommentar

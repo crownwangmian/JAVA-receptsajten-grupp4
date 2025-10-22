@@ -57,9 +57,7 @@ export default function Startsida() {
 		});
 	}, [recipes, selectedCategory, query]);
 
-	if (loading) return <div>Loading recipes…</div>;
-	if (error) return <div>Error: {error}</div>;
-
+	// Always render the hero/header. The body below will show loading/error/empty states.
 	return (
 		<div className="drink-app">
 			<header className="hero">
@@ -105,17 +103,32 @@ export default function Startsida() {
 			</header>
 
 			<section className="drink-list">
-				{filtered.length === 0 && (
-					<p className="no-result">Inga recept matchar din sökning.</p>
+				{/* Loading state */}
+				{loading && <div style={{ padding: 16 }}>Loading recipes…</div>}
+
+				{/* Error contacting DB */}
+				{!loading && error && (
+					<div style={{ padding: 16, color: "crimson" }}>
+						Kunde inte kontakta databasen: {String(error)}
+					</div>
 				)}
 
-				{filtered.map((recipe, i) => (
-					<ReceptLista
-						key={recipe._id || recipe.id || recipe.title || i}
-						recipe={recipe}
-						index={i}
-					/>
-				))}
+				{/* No recipes in DB */}
+				{!loading && !error && filtered.length === 0 && (
+					<p className="no-result">Inga recept i databasen.</p>
+				)}
+
+				{/* Normal list */}
+				{!loading &&
+					!error &&
+					filtered.length > 0 &&
+					filtered.map((recipe, i) => (
+						<ReceptLista
+							key={recipe._id || recipe.id || recipe.title || i}
+							recipe={recipe}
+							index={i}
+						/>
+					))}
 			</section>
 		</div>
 	);
