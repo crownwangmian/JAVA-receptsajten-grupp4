@@ -83,6 +83,12 @@
   list-style: none;
 }
 
+.comment-meta {
+  color: #666;
+  font-size: 0.9em;
+  margin: 4px 0;
+}
+
 .detail-feedback {
 	max-width: 980px;
 	margin: 24px auto 48px;
@@ -137,6 +143,25 @@
 }
 .btn:hover {
 	background: #222;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.5);
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.input:disabled,
+.textarea:disabled {
+  background-color: #f0f0f0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 @media (max-width: 720px) {
