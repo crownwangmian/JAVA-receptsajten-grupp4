@@ -22,6 +22,7 @@ export default function Receptdetail() {
 	const [comment, setComment] = useState("");
 	const [query, setQuery] = useState("");
 	const [comments, setComments] = useState([]);
+	const [isSubmitted, setIsSubmitted] = useState(false);
 
 	useEffect(() => {
 		if (!recipeId) return;
