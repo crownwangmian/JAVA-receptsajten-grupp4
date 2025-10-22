@@ -86,6 +86,8 @@ export default function Receptdetail() {
 			}
 			setName("");
 			setComment("");
+			setIsSubmitted(true);
+			
 
 			const commentsRes = await fetch(`https://grupp4-pkfud.reky.se/recipes/${recipeId}/comments`);
 			const newComments = await commentsRes.json();
