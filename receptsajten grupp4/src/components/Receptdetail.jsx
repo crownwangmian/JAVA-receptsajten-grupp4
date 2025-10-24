@@ -18,6 +18,7 @@ export default function Receptdetail() {
 
 	// feedback
 	const [rating, setRating] = useState(0);
+	const [hoverRating, setHoverRating] = useState(0);
 	const [name, setName] = useState("");
 	const [comment, setComment] = useState("");
 	const [hasRated, setHasRated] = useState(false);
@@ -82,6 +83,9 @@ export default function Receptdetail() {
 	// When the user has submitted a rating, lock further interactions and show
 	// the average (read-only). Otherwise show the temporary selection.
 	const displayRating = hasRated ? Math.round(avg) : rating;
+
+	// effective rating to show while hovering/previewing: prefer hoverRating when present
+	const effectiveRating = hoverRating || displayRating;
 
 	async function sendComment() {
 		if (!name.trim() || !comment.trim()) {
@@ -222,9 +226,15 @@ export default function Receptdetail() {
 					{[1, 2, 3, 4, 5].map((star) => (
 						<span
 							key={star}
-							className={`${star <= displayRating ? "active" : ""}${
+							className={`${star <= effectiveRating ? "active" : ""}${
 								hasRated ? " disabled" : ""
 							}`}
+							onMouseEnter={() => {
+								if (!hasRated) setHoverRating(star);
+							}}
+							onMouseLeave={() => {
+								if (!hasRated) setHoverRating(0);
+							}}
 							onClick={async () => {
 								if (hasRated) return; // already rated this session — locked
 								// set local selection immediately
