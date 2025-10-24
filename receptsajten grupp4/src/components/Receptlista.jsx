@@ -42,7 +42,7 @@ export default function ReceptLista({ recipe, onClick, index = 0 }) {
         </p>
         <div className="recipe-meta">
           <span className="time">
-            Förberedningstid: {recipe.timeInMins} min
+            Tillredningstid: {recipe.timeInMins} min
           </span>
 
           <div className="meta-row">
@@ -52,6 +52,7 @@ export default function ReceptLista({ recipe, onClick, index = 0 }) {
 
             <div className="rating-wrap">
               <RatingStars value={displayRating} />
+              <span className="meta-score">{displayRating.toFixed(1)}</span>
             </div>
           </div>
         </div>

@@ -35,7 +35,7 @@ describe("ReceptLista basic render", () => {
 		expect(img).toHaveAttribute("src", "/img/example.jpg");
 
 		// time text
-		expect(screen.getByText(/Förberedningstid:/)).toBeInTheDocument();
+		expect(screen.getByText(/Tillredningstid:/)).toBeInTheDocument();
 		expect(screen.getByText(/8 min/)).toBeInTheDocument();
 
 		// rating wrapper should exist and Recept button is present

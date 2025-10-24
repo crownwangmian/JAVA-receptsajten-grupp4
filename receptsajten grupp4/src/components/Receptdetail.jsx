@@ -155,8 +155,14 @@ export default function Receptdetail() {
 			{/* Frame 2：信息条 */}
 			<section className="detail-meta">
 				<img className="hero-image" src={img} alt={title} />
-
+{/* todo  put back in center Tid Ingredienser Svårighetsgrad och hitta varför en test failar */}
 				<div className="meta-column">
+          <span className="meta-label">
+            <h2 className="meta-title">{recipe.title}</h2>
+          </span>
+          <div className="meta-item">
+            <span className="meta-label description">{recipe.description}</span>
+          </div>
 					<div className="meta-item">
 						<span className="meta-label">Tid:</span> {mins} min
 					</div>
@@ -223,75 +229,64 @@ export default function Receptdetail() {
 				<h4>Vad tyckte du om receptet?</h4>
 
 				<div className="stars">
-					{[1, 2, 3, 4, 5].map((star) => (
-						<span
-							key={star}
-							className={`${star <= effectiveRating ? "active" : ""}${
-								hasRated ? " disabled" : ""
-							}`}
-							onMouseEnter={() => {
-								if (!hasRated) setHoverRating(star);
-							}}
-							onMouseLeave={() => {
-								if (!hasRated) setHoverRating(0);
-							}}
-							onClick={async () => {
-								if (hasRated) return; // already rated this session — locked
-								// set local selection immediately
-								setRating(star);
-								try {
-									const id = recipe._id ?? recipe.id;
-									if (!id) throw new Error("Recipe id missing");
+					{/* If user has rated, replace the interactive stars with the thank-you message */}
+					{hasRated ? (
+						<div className="rated-message">
+							{ratedMessage || "Tack! Du har betygsatt detta recept."}
+						</div>
+					) : (
+						[1, 2, 3, 4, 5].map((star) => (
+							<span
+								key={star}
+								className={`${star <= effectiveRating ? "active" : ""}`}
+								onMouseEnter={() => setHoverRating(star)}
+								onMouseLeave={() => setHoverRating(0)}
+								onClick={async () => {
+									// set local selection immediately
+									setRating(star);
+									try {
+										const id = recipe._id ?? recipe.id;
+										if (!id) throw new Error("Recipe id missing");
 
-									// Send single rating to server
-									const resp = await postRating(id, Number(star));
+										const resp = await postRating(id, Number(star));
 
-									// If server returns updated recipe or ratings, use it
-									if (resp && resp.avgRating !== undefined) {
-										// server returned avgRating — it may be a number or an array
-										if (typeof resp.avgRating === "number") {
-											// convert scalar to array and persist to DB so future clients see array
-											const arr = [Number(resp.avgRating)];
-											try {
-												await updateRecipe(id, { avgRating: arr });
-												setRecipe({ ...recipe, avgRating: arr });
-											} catch {
-												// if patch fails, still set local state to array for UI consistency
-												setRecipe({ ...recipe, avgRating: arr });
+										if (resp && resp.avgRating !== undefined) {
+											if (typeof resp.avgRating === "number") {
+												const arr = [Number(resp.avgRating)];
+												try {
+													await updateRecipe(id, { avgRating: arr });
+													setRecipe({ ...recipe, avgRating: arr });
+												} catch {
+													setRecipe({ ...recipe, avgRating: arr });
+												}
+											} else {
+												setRecipe({ ...recipe, avgRating: resp.avgRating });
 											}
+										} else if (resp && resp.ratings) {
+											setRecipe({ ...recipe, avgRating: resp.ratings });
 										} else {
-											// assume server returned an array
-											setRecipe({ ...recipe, avgRating: resp.avgRating });
+											const newRatings = Array.from(ratingsArray);
+											newRatings.push(Number(star));
+											setRecipe({ ...recipe, avgRating: newRatings });
 										}
-									} else if (resp && resp.ratings) {
-										setRecipe({ ...recipe, avgRating: resp.ratings });
-									} else {
-										// fallback: append locally
-										const newRatings = Array.from(ratingsArray);
-										newRatings.push(Number(star));
-										setRecipe({ ...recipe, avgRating: newRatings });
-									}
 
-									// Lock the rating so the user cannot rate again on this page.
-									setHasRated(true);
-									// Clear the temporary selection so the UI shows the average instead
-									// of the clicked star on this page.
-									setRating(0);
-									setRatedMessage("Tack! Du har betygsatt detta recept.");
-								} catch (e) {
-									console.error(e);
-									setRatedMessage("Kunde inte spara omdömet. Försök igen.");
-								}
-							}}
-							role="button"
-							aria-disabled={hasRated}
-							style={{ pointerEvents: hasRated ? "none" : undefined }}
-						>
-							☆
-						</span>
-					))}
+										setHasRated(true);
+										setRating(0);
+										setRatedMessage("Tack! Du har betygsatt detta recept.");
+									} catch (e) {
+										console.error(e);
+										setRatedMessage("Kunde inte spara omdömet. Försök igen.");
+									}
+								}}
+								role="button"
+								aria-disabled={false}
+								style={{ cursor: "pointer" }}
+							>
+								☆
+							</span>
+						))
+					)}
 				</div>
-				{ratedMessage && <div className="rated-message">{ratedMessage}</div>}
 
 				<div className="feedback-form">
 					Lämna gärna en kommentar
