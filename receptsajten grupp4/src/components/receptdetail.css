@@ -1,3 +1,59 @@
+/* =========================
+ Force light theme (ignore system dark mode)
+   ========================= */
+:root, html, body {
+  color-scheme: light;               /* Make the browser control use a light appearance */
+}
+
+.receptdetail-page {
+  background: #ffffff !important;    
+  color: #111111 !important;         
+}
+
+/* Search boxes/input controls always have black text on a white background */
+.receptdetail-page input,
+.receptdetail-page textarea,
+.receptdetail-page select,
+.receptdetail-page .hero-search input[type="search"],
+.receptdetail-page .hero-search input[type="text"],
+.receptdetail-page .hero-search .search-input {
+  background: #ffffff !important;
+  color: #111111 !important;
+  border: 1px solid #ddd !important;
+  -webkit-text-fill-color: #111111 !important; /* Chrome/Safari */
+  caret-color: #111111 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+.receptdetail-page .hero-search input::placeholder,
+.receptdetail-page .hero-search .search-input::placeholder {
+  color: #666 !important;
+  opacity: 1 !important;
+}
+
+/* Maintain light appearance even when the system is dark */
+@media (prefers-color-scheme: dark) {
+  .receptdetail-page {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+  .receptdetail-page input,
+  .receptdetail-page textarea,
+  .receptdetail-page select,
+  .receptdetail-page .hero-search input[type="search"],
+  .receptdetail-page .hero-search input[type="text"],
+  .receptdetail-page .hero-search .search-input {
+    background: #ffffff !important;
+    color: #111111 !important;
+    border: 1px solid #ddd !important;
+    -webkit-text-fill-color: #111111 !important;
+    caret-color: #111111 !important;
+  }
+}
+
+/* =========================
+  riginal style (keep)
+   ========================= */
 .hero.hero--detail {
   min-height: 160px;
 }
@@ -18,14 +74,12 @@
   flex-wrap: nowrap;
   padding: 8px 12px;
 }
-
 .detail-meta .meta-item {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 0.95rem;
 }
-
 .meta-column {
   margin-top: 50px;
   display: flex;
@@ -34,7 +88,6 @@
   justify-content: flex-start;
   flex: 1 1 auto;
 }
-
 .meta-label {
   color: #666;
   font-weight: 600;
@@ -53,11 +106,9 @@
   color: #ccc;
   margin-right: 4px;
 }
-
 .meta-rating .meta-stars span.active {
   color: gold;
 }
-
 .meta-rating .meta-score {
   font-weight: 600;
   margin-left: 4px;
@@ -71,21 +122,17 @@
   gap: 28px;
   text-align: left;
 }
-
 .detail-body h3 {
   text-align: center;
 }
-
 .detail-col h3 {
   margin-bottom: 10px;
 }
-
 .dot-list {
   list-style-position: inside;
   padding-left: 12px;
   line-height: 1.7;
 }
-
 .step-list {
   padding-left: 20px;
   line-height: 1.7;
@@ -103,7 +150,6 @@
   margin: 24px auto 48px;
   text-align: left;
 }
-
 .detail-feedback h4 {
   margin-bottom: 10px;
 }
@@ -114,7 +160,6 @@
   cursor: pointer;
   margin-right: 6px;
 }
-
 .stars span.active {
   color: gold;
 }
@@ -127,7 +172,6 @@
   max-width: 520px;
   text-align: left;
 }
-
 .input {
   height: 34px;
   padding: 6px 10px;
@@ -136,7 +180,6 @@
   outline: none;
   width: 50%;
 }
-
 .textarea {
   min-height: 110px;
   padding: 8px 10px;
@@ -156,7 +199,6 @@
   font-weight: 700;
   cursor: pointer;
 }
-
 .btn:hover {
   background: #222;
 }
@@ -166,145 +208,155 @@ input[type="checkbox"] {
   margin-right: 0.5rem;
   cursor: pointer;
 }
-
 .input:disabled,
 .textarea:disabled {
   background-color: #f0f0f0;
   color: #999;
   cursor: not-allowed;
 }
-
 .btn:disabled {
   background-color: #ccc;
   cursor: not-allowed;
   opacity: 0.6;
 }
 
-/* 评论区 */
 .comments-section {
   max-width: 980px;
   margin: 24px auto;
   text-align: left;
 }
-
 .comments-section h4 {
   margin-bottom: 8px;
   font-size: 1.1rem;
   font-weight: 600;
 }
-
 .comment {
   margin-bottom: 12px;
   padding: 8px 10px;
   border-bottom: 1px solid #ddd;
 }
-
 .comment p {
   margin: 4px 0;
   line-height: 1.5;
 }
 
-
-@media (max-width: 720px) {
-  .detail-body {
-    grid-template-columns: 1fr;
-    text-align: center;
+/* ---- Prevent the search box from covering Hem (mobile) ---- */
+@media (max-width: 480px) {
+  .hero-home {
+    z-index: 9;
+    top: 10px;
+    left: 10px;
   }
-
-  .meta-column {
-    margin-top: 0px;
+  .hero-search {
+    right: 10px;
+    top: 10px;
+    z-index: 8;
+    max-width: calc(100% - 120px);
   }
-
-  .detail-meta {
-    flex-direction: column;
-    align-items: center;
+  .hero-search .search-input,
+  .hero-search input[type="search"] {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
+}
+@media (max-width: 360px) {
+  .hero-search { max-width: calc(100% - 130px); }
+}
 
-  .detail-feedback {
-    text-align: center;
+/* ====== Mobile: Category buttons automatically wrap (instead of horizontal scrolling) ====== */
+@media (max-width: 480px) {
+  .hero { padding-bottom: 90px; }
+  .hero nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 10px;
+    overflow: visible;
+    white-space: normal;
+    max-width: calc(100% - 24px);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 12px;
+  }
+  .hero nav .categorybutton {
+    flex: 0 1 auto;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border-radius: 9999px;
+  }
+}
+@media (max-width: 360px) {
+  .hero { padding-bottom: 100px; }
+  .hero nav .categorybutton {
+    padding: 7px 10px;
+    font-size: 0.88rem;
   }
 }
 
-
-@media (prefers-color-scheme: dark) {
-  .receptdetail-page {
-    background-color: #1b1b1b !important;
-    color: #f5f5f5 !important;
+/* =========================
+   Mobile: Category button sliding
+   ========================= */
+@media (max-width: 480px) {
+  .hero { padding-bottom: 56px; }
+  .hero nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 12px;
+    transform: none;
+    display: flex;
+    flex-wrap: nowrap !important;
+    gap: 8px;
+    padding: 8px 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    mask-image: linear-gradient(to right,
+                  transparent 0,
+                  black 16px,
+                  black calc(100% - 16px),
+                  transparent 100%);
   }
-
-    /* --- 搜索框在暗色模式下：白底黑字，保证可见 --- */
-  .receptdetail-page .hero-search input[type="search"],
-  .receptdetail-page .hero-search input[type="text"],
-  .receptdetail-page .hero-search .search-input {
-    background: #ffffff !important;
-    color: #111111 !important;
-    -webkit-text-fill-color: #111111 !important; /* Chrome/Safari */
-    caret-color: #111111 !important;
-    border: 1px solid #666 !important;
-    box-shadow: none !important;
-    opacity: 1 !important; /* 防止被上层淡化 */
+  .hero nav::-webkit-scrollbar { display: none; }
+  .hero nav .categorybutton {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    padding: 8px 12px;
+    font-size: 0.92rem;
+    line-height: 1;
+    border-radius: 9999px;
+    color: #fff;
+    background: rgba(0,0,0,0.78);
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 0 2px 6px rgba(0,0,0,.18);
+    transition: transform .08s ease;
   }
-
-  .receptdetail-page .hero-search input::placeholder,
-  .receptdetail-page .hero-search .search-input::placeholder {
-    color: #666 !important;
-    opacity: 1 !important;
+  .hero nav .categorybutton:active { transform: scale(0.98); }
+  .hero nav .categorybutton.active {
+    background: #111;
+    border-color: rgba(255,255,255,0.45);
+    font-weight: 700;
   }
+  .hero nav::before,
+  .hero nav::after { content: ""; flex: 0 0 4px; }
 
-
-  .receptdetail-page h1,
-  .receptdetail-page h2,
-  .receptdetail-page h3,
-  .receptdetail-page h4,
-  .receptdetail-page h5,
-  .receptdetail-page p,
-  .receptdetail-page span,
-  .receptdetail-page li {
-    color: #f5f5f5 !important;
+  .hero-home { z-index: 9; top: 10px; left: 10px; }
+  .hero-search { z-index: 8; top: 10px; right: 10px; max-width: calc(100% - 120px); }
+  .hero-search .search-input,
+  .hero-search input[type="search"] {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    height: 34px;
+    font-size: 0.95rem;
   }
-
-  .receptdetail-page .meta-label {
-    color: #d6d6d6 !important;
-  }
-
-  .receptdetail-page input,
-  .receptdetail-page textarea {
-    background-color: #2a2a2a !important;
-    color: #f5f5f5 !important;
-    border: 1px solid #555 !important;
-  }
-
-  .receptdetail-page .btn {
-    background-color: #444 !important;
-    color: #fff !important;
-  }
-
-  .receptdetail-page .btn:hover {
-    background-color: #666 !important;
-  }
-
-
-  .receptdetail-page .comments-section,
-  .receptdetail-page .comments-section * {
-    color: #eeeeee !important;
-    opacity: 1 !important;
-  }
-
-  .receptdetail-page .comments-section a {
-    color: #d7e3ff !important;
-  }
-
-  .receptdetail-page .comments-section a:visited {
-    color: #c7d4ff !important;
-  }
-
-  .receptdetail-page .comments-section h4 {
-    color: #ffffff !important;
-  }
-
-  .receptdetail-page .comments-section .comment-meta,
-  .receptdetail-page .comments-section small,
-  .receptdetail-page .comments-section time {
-    color: #cccccc !important;
+}
+@media (max-width: 360px) {
+  .hero { padding-bottom: 60px; }
+  .hero nav .categorybutton {
+    padding: 7px 10px;
+    font-size: 0.88rem;
   }
 }
