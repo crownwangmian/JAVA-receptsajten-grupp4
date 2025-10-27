@@ -46,6 +46,7 @@
 }
 
 .meta-label {
+  padding-left: 10%;
 	color: #666;
 	font-weight: 600;
 }
@@ -55,6 +56,9 @@
 	padding: 3px 8px;
 	border-radius: 6px;
 	font-size: 0.85rem;
+}
+.meta-item.meta-rating {
+  padding-left: 10%;
 }
 .meta-rating .meta-stars span {
 	font-size: 1.1rem;
