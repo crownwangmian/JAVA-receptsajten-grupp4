@@ -71,8 +71,8 @@ export default function Receptdetail() {
 	const ratingsArray = Array.isArray(recipe.avgRating)
 		? recipe.avgRating.map((n) => Number(n)).filter((n) => !Number.isNaN(n))
 		: typeof recipe.avgRating === "number"
-		? [Number(recipe.avgRating)]
-		: [];
+			? [Number(recipe.avgRating)]
+			: [];
 
 	const avg =
 		ratingsArray.length > 0
@@ -222,9 +222,8 @@ export default function Receptdetail() {
 					{[1, 2, 3, 4, 5].map((star) => (
 						<span
 							key={star}
-							className={`${star <= displayRating ? "active" : ""}${
-								hasRated ? " disabled" : ""
-							}`}
+							className={`${star <= displayRating ? "active" : ""}${hasRated ? " disabled" : ""
+								}`}
 							onClick={async () => {
 								if (hasRated) return; // already rated this session — locked
 								// set local selection immediately
@@ -283,26 +282,32 @@ export default function Receptdetail() {
 				</div>
 				{ratedMessage && <div className="rated-message">{ratedMessage}</div>}
 
-				<div className="feedback-form">
-					Lämna gärna en kommentar
-					<input
-						className="input"
-						placeholder="Namn..."
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						disabled={isSubmitted}
-					/>
-					<textarea
-						className="textarea"
-						placeholder="Kommentar..."
-						value={comment}
-						onChange={(e) => setComment(e.target.value)}
-						disabled={isSubmitted}
-					/>
-					<button className="btn" onClick={sendComment} disabled={isSubmitted}>
-						Skicka
-					</button>
-				</div>
+				{isSubmitted ? (
+					<div className="thank-you-message">
+						<p>Tack för din kommentar!</p>
+					</div>
+				) : (
+					<div className="feedback-form">
+						Lämna gärna en kommentar
+						<input
+							className="input"
+							placeholder="Namn..."
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							disabled={isSubmitted}
+						/>
+						<textarea
+							className="textarea"
+							placeholder="Kommentar..."
+							value={comment}
+							onChange={(e) => setComment(e.target.value)}
+							disabled={isSubmitted}
+						/>
+						<button className="btn" onClick={sendComment} disabled={isSubmitted}>
+							Skicka
+						</button>
+					</div>
+				)}
 			</section>
 		</div>
 	);
