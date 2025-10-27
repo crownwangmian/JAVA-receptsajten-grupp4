@@ -181,6 +181,20 @@ input[type="checkbox"] {
   opacity: 0.6;
 }
 
+.thank-you-message {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+
+.thank-you-message p {
+  margin: 0;
+}
+
 @media (max-width: 720px) {
 	.detail-body {
 		grid-template-columns: 1fr;
