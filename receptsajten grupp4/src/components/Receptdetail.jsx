@@ -219,7 +219,7 @@ export default function Receptdetail() {
 						<div className="comment-meta">
 							{c.createdAt ? new Date(c.createdAt).toLocaleString() : ""}
 						</div>
-						<p>{c.comment}</p>
+						<p className="commentarytext">{c.comment}</p>
 					</div>
 				))}
 			</section>
