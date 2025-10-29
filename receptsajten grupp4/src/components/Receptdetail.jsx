@@ -7,6 +7,8 @@ import DifficultyBadge from "./ui/DifficultyBadge"; // 若没有可先删掉这�
 import "./Startsida.css"; // 你已有
 import "./receptdetail.css"; // 👈 新增样式文件（第2步给出）
 import RatingStars from "./ui/RatingStars.jsx";
+import Categorybutton from "./categorybutton.jsx";
+import { categories } from "../data/categories";
 
 export default function Receptdetail() {
 	const navigate = useNavigate();
@@ -26,6 +28,7 @@ export default function Receptdetail() {
 	const [query, setQuery] = useState("");
 	const [comments, setComments] = useState([]);
 	const [isSubmitted, setIsSubmitted] = useState(false);
+	const [selectedCategory, setSelectedCategory] = useState(null);
 
 	useEffect(() => {
 		if (!recipeId) return;
@@ -150,6 +153,20 @@ export default function Receptdetail() {
 				<div className="hero-text">
 					<h1>{title}</h1>
 				</div>
+				<nav>
+					{categories.map((cat) => (
+						<Categorybutton
+							key={cat.name}
+							name={cat.name}
+							isActive={selectedCategory === cat.dbCategory}
+							onClick={() =>
+								setSelectedCategory(
+									selectedCategory === cat.dbCategory ? null : cat.dbCategory
+								)
+							}
+						/>
+					))}
+				</nav>
 			</header>
 
 			{/* Frame 2：信息条 */}
