@@ -72,8 +72,8 @@ export default function Receptdetail() {
 	const ratingsArray = Array.isArray(recipe.avgRating)
 		? recipe.avgRating.map((n) => Number(n)).filter((n) => !Number.isNaN(n))
 		: typeof recipe.avgRating === "number"
-		? [Number(recipe.avgRating)]
-		: [];
+			? [Number(recipe.avgRating)]
+			: [];
 
 	const avg =
 		ratingsArray.length > 0
@@ -155,14 +155,14 @@ export default function Receptdetail() {
 			{/* Frame 2：信息条 */}
 			<section className="detail-meta">
 				<img className="hero-image" src={img} alt={title} />
-{/* todo  put back in center Tid Ingredienser Svårighetsgrad och hitta varför en test failar */}
+				{/* todo  put back in center Tid Ingredienser Svårighetsgrad och hitta varför en test failar */}
 				<div className="meta-column">
-          <span className="meta-label">
-            <h2 className="meta-title">{recipe.title}</h2>
-          </span>
-          <div className="meta-item">
-            <span className="meta-label description">{recipe.description}</span>
-          </div>
+					<span className="meta-label">
+						<h2 className="meta-title">{recipe.title}</h2>
+					</span>
+					<div className="meta-item">
+						<span className="meta-label description">{recipe.description}</span>
+					</div>
 					<div className="meta-item">
 						<span className="meta-label">Tid:</span> {mins} min
 					</div>
@@ -288,26 +288,32 @@ export default function Receptdetail() {
 					)}
 				</div>
 
-				<div className="feedback-form">
-					Lämna gärna en kommentar
-					<input
-						className="input"
-						placeholder="Namn..."
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						disabled={isSubmitted}
-					/>
-					<textarea
-						className="textarea"
-						placeholder="Kommentar..."
-						value={comment}
-						onChange={(e) => setComment(e.target.value)}
-						disabled={isSubmitted}
-					/>
-					<button className="btn" onClick={sendComment} disabled={isSubmitted}>
-						Skicka
-					</button>
-				</div>
+				{isSubmitted ? (
+					<div className="thank-you-message">
+						<p>Tack för din kommentar!</p>
+					</div>
+				) : (
+					<div className="feedback-form">
+						Lämna gärna en kommentar
+						<input
+							className="input"
+							placeholder="Namn..."
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							disabled={isSubmitted}
+						/>
+						<textarea
+							className="textarea"
+							placeholder="Kommentar..."
+							value={comment}
+							onChange={(e) => setComment(e.target.value)}
+							disabled={isSubmitted}
+						/>
+						<button className="btn" onClick={sendComment} disabled={isSubmitted}>
+							Skicka
+						</button>
+					</div>
+				)}
 			</section>
 		</div>
 	);
