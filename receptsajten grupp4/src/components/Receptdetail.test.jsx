@@ -1,4 +1,10 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import {
+	render,
+	screen,
+	waitFor,
+	fireEvent,
+	within,
+} from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { vi, beforeEach, afterEach, describe, it, expect } from "vitest";
 
@@ -27,6 +33,35 @@ describe("Receptdetail basic behaviors", () => {
 		expect(el).toBeTruthy();
 	});
 
+	it("shows the average rating on the detail page", async () => {
+		const fakeRecipe = {
+			_id: "r1",
+			title: "Rated Drink",
+			imageUrl: "/img.jpg",
+			timeInMins: 5,
+			ingredients: ["a"],
+			instructions: ["do it"],
+			avgRating: [4],
+		};
+
+		vi.spyOn(recipes, "getRecipes").mockResolvedValue([fakeRecipe]);
+
+		render(
+			<MemoryRouter initialEntries={["/recipe/r1"]}>
+				<Routes>
+					<Route path="/recipe/:recipeId" element={<Receptdetail />} />
+				</Routes>
+			</MemoryRouter>
+		);
+
+		// find the numeric score element (class meta-score)
+		const score = await screen.findByText(
+			(content, node) =>
+				node?.classList?.contains("meta-score") && /4\.0/.test(content)
+		);
+		expect(score).toBeInTheDocument();
+	});
+
 	it("calls postRating and locks stars after click", async () => {
 		const fakeRecipe = {
 			_id: "r1",
@@ -43,7 +78,7 @@ describe("Receptdetail basic behaviors", () => {
 			.spyOn(recipes, "postRating")
 			.mockResolvedValue({ avgRating: 4 });
 
-		render(
+		const utils = render(
 			<MemoryRouter initialEntries={["/recipe/r1"]}>
 				<Routes>
 					<Route path="/recipe/:recipeId" element={<Receptdetail />} />
@@ -53,7 +88,8 @@ describe("Receptdetail basic behaviors", () => {
 
 		await screen.findByText(/Test Drink/i);
 
-		const stars = screen.getAllByText("☆");
+		// scope to the rendered Receptdetail container to avoid matching other stars
+		const stars = within(utils.container).getAllByText("☆");
 		expect(stars.length).toBeGreaterThanOrEqual(5);
 
 		fireEvent.click(stars[3]);
@@ -66,10 +102,9 @@ describe("Receptdetail basic behaviors", () => {
 		);
 		expect(thankYou).toBeTruthy();
 
-		const maybeStar = screen.queryByText("☆");
-		if (maybeStar) {
-			fireEvent.click(maybeStar);
-		}
+		// After rating, stars should be removed and replaced by the thank-you text
+		const leftoverStar = within(utils.container).queryByText("☆");
+		expect(leftoverStar).toBeNull();
 		expect(postSpy).toHaveBeenCalledTimes(1);
 	});
 });
