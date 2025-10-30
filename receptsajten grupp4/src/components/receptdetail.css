@@ -108,6 +108,15 @@
 	margin: 4px 0;
 }
 
+.comment .commentarytext {
+	margin: 5px 0 0 0;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	word-break: break-word;
+	max-width: 100%;
+	overflow: hidden;
+}
+
 .detail-feedback {
 	max-width: 980px;
 	margin: 24px auto 48px;
