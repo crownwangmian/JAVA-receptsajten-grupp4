@@ -2,11 +2,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getRecipes } from "../services/recipes";
 import ReceptLista from "./Receptlista";
-import SearchBar from "./ui/SearchBar.jsx";
-import Categorybutton from "./categorybutton";
 import { categories } from "../data/categories";
+import Header from './ui/Header.jsx'
 import "./Startsida.css";
-
 export default function Startsida() {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -110,12 +108,12 @@ export default function Startsida() {
 
   return (
     <div className="drink-app">
-      <header className="hero">
+      {/* <header className={styles['hero']}>
         <img src="hero.jpg" alt="Drink hero background" />
 
-        <Link className="hero-home" to="/">Hem</Link>
+        <Link className={styles['hero-home']} to="/">Hem</Link>
 
-        <div className="hero-search">
+        <div className={styles['hero-search']}>
           <SearchBar
             value={query}
             onChange={setQuery}
@@ -127,12 +125,12 @@ export default function Startsida() {
           />
         </div>
 
-        <div className="hero-text">
+        <div className={styles['hero-text']}>
           <h1>Drinkrecept</h1>
           <h5>Dina favoritdrinkar samlade på ett ställe</h5>
         </div>
 
-        <nav>
+        <nav className={styles['hero-nav']}>
           {categories.map((cat) => {
             const key = normalize(cat.dbCategory ?? cat.name);
             return (
@@ -150,8 +148,8 @@ export default function Startsida() {
             );
           })}
         </nav>
-      </header>
-
+      </header> */}
+      <Header query={query} setQuery={setQuery} navigate={navigate} />
       <section className="drink-list">
         {loading && <div style={{ padding: 16 }}>Loading recipes…</div>}
 

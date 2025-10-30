@@ -7,7 +7,7 @@ import { categories as CATEGORY_META } from "../data/categories";
 import "./Startsida.css";
 import SearchBar from "./ui/SearchBar.jsx";
 import CategoryButton from "./categorybutton.jsx";
-
+import Header from "./ui/Header.jsx";
 export default function CategoryPage() {
   const { categoryId } = useParams(); // e.g. "gin", "rom", "tequila", "vodka"
 
@@ -113,13 +113,12 @@ export default function CategoryPage() {
 
   return (
     <div className="drink-app">
-      <header className="hero" style={{ minHeight: 120 }}>
+      {/* <header className="hero" style={{ minHeight: 120 }}>
         <img src="/hero.jpg" alt="header" />
         <Link className="hero-home" to="/">
           Hem
         </Link>
 
-        {/* top-right search bar (category-scoped) */}
         <div style={{ position: "absolute", top: 10, right: 20, zIndex: 6 }}>
           <SearchBar
             value={query}
@@ -145,7 +144,9 @@ export default function CategoryPage() {
             );
           })}
         </nav>
-      </header>
+      </header> */}
+
+      <Header query={query} setQuery={setQuery} />
 
       <section className="drink-list">
         {filtered.map((recipe, i) => (
