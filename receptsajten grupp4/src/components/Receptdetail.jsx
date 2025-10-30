@@ -272,7 +272,7 @@ export default function Receptdetail() {
 
 										setHasRated(true);
 										setRating(0);
-										setRatedMessage("Tack! Du har betygsatt detta recept.");
+										setRatedMessage("Tack för ditt betyg!");
 									} catch (e) {
 										console.error(e);
 										setRatedMessage("Kunde inte spara omdömet. Försök igen.");
