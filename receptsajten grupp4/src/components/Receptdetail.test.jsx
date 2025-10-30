@@ -101,7 +101,7 @@ describe("Receptdetail basic behaviors", () => {
 		fireEvent.click(stars[3]);
 
 		const thankYou = await screen.findByText(
-			/Tack! Du har betygsatt detta recept./i
+			/Tack för ditt betyg!/i
 		);
 		expect(thankYou).toBeTruthy();
 
