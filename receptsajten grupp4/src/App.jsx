@@ -14,7 +14,7 @@ export default function App() {
       <Route path="/" element={<Startsida />} />
 
       {/* Category page: /category/:categoryId */}
-      <Route path="/category/:categoryId" element={<CategoryPage />} />
+      <Route path="/category/:categoryId" element={<CategoryPage/>} />
 
       {/* Recipe detail: /recipe/:recipeId */}
       <Route path="/recipe/:recipeId" element={<Receptdetail />} />

@@ -7,7 +7,9 @@ import DifficultyBadge from "./ui/DifficultyBadge"; // 若没有可先删掉这�
 import "./Startsida.css"; // 你已有
 import "./receptdetail.css"; // 👈 新增样式文件（第2步给出）
 import RatingStars from "./ui/RatingStars.jsx";
-
+import Categorybutton from "./categorybutton.jsx";
+import { categories } from "../data/categories";
+import Header from "./ui/Header.jsx";
 export default function Receptdetail() {
 	const navigate = useNavigate();
 	const { recipeId } = useParams();
@@ -26,6 +28,7 @@ export default function Receptdetail() {
 	const [query, setQuery] = useState("");
 	const [comments, setComments] = useState([]);
 	const [isSubmitted, setIsSubmitted] = useState(false);
+	const [selectedCategory, setSelectedCategory] = useState(null);
 
 	useEffect(() => {
 		if (!recipeId) return;
@@ -72,8 +75,8 @@ export default function Receptdetail() {
 	const ratingsArray = Array.isArray(recipe.avgRating)
 		? recipe.avgRating.map((n) => Number(n)).filter((n) => !Number.isNaN(n))
 		: typeof recipe.avgRating === "number"
-		? [Number(recipe.avgRating)]
-		: [];
+			? [Number(recipe.avgRating)]
+			: [];
 
 	const avg =
 		ratingsArray.length > 0
@@ -129,7 +132,7 @@ export default function Receptdetail() {
 	return (
 		<div className="drink-app">
 			{/* Frame 1：头部大图 + 搜索 + 标题 */}
-			<header className="hero hero--detail">
+			{/* <header className="hero hero--detail">
 				<img src="/hero.jpg" alt="header" />
 				<Link className="hero-home" to="/">
 					Hem
@@ -150,19 +153,33 @@ export default function Receptdetail() {
 				<div className="hero-text">
 					<h1>{title}</h1>
 				</div>
-			</header>
-
+				<nav>
+					{categories.map((cat) => (
+						<Categorybutton
+							key={cat.name}
+							name={cat.name}
+							isActive={selectedCategory === cat.dbCategory}
+							onClick={() =>
+								setSelectedCategory(
+									selectedCategory === cat.dbCategory ? null : cat.dbCategory
+								)
+							}
+						/>
+					))}
+				</nav>
+			</header> */}
+			<Header query={query} setQuery={setQuery} />
 			{/* Frame 2：信息条 */}
 			<section className="detail-meta">
 				<img className="hero-image" src={img} alt={title} />
-{/* todo  put back in center Tid Ingredienser Svårighetsgrad och hitta varför en test failar */}
+				{/* todo  put back in center Tid Ingredienser Svårighetsgrad och hitta varför en test failar */}
 				<div className="meta-column">
-          <span className="meta-label">
-            <h2 className="meta-title">{recipe.title}</h2>
-          </span>
-          <div className="meta-item">
-            <span className="meta-label description">{recipe.description}</span>
-          </div>
+					<span className="meta-label">
+						<h2 className="meta-title">{recipe.title}</h2>
+					</span>
+					<div className="meta-item">
+						<span className="meta-label description">{recipe.description}</span>
+					</div>
 					<div className="meta-item">
 						<span className="meta-label">Tid:</span> {mins} min
 					</div>
@@ -219,7 +236,7 @@ export default function Receptdetail() {
 						<div className="comment-meta">
 							{c.createdAt ? new Date(c.createdAt).toLocaleString() : ""}
 						</div>
-						<p>{c.comment}</p>
+						<p className="commentarytext">{c.comment}</p>
 					</div>
 				))}
 			</section>
@@ -272,7 +289,7 @@ export default function Receptdetail() {
 
 										setHasRated(true);
 										setRating(0);
-										setRatedMessage("Tack! Du har betygsatt detta recept.");
+										setRatedMessage("Tack för ditt betyg!");
 									} catch (e) {
 										console.error(e);
 										setRatedMessage("Kunde inte spara omdömet. Försök igen.");
@@ -288,26 +305,32 @@ export default function Receptdetail() {
 					)}
 				</div>
 
-				<div className="feedback-form">
-					Lämna gärna en kommentar
-					<input
-						className="input"
-						placeholder="Namn..."
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						disabled={isSubmitted}
-					/>
-					<textarea
-						className="textarea"
-						placeholder="Kommentar..."
-						value={comment}
-						onChange={(e) => setComment(e.target.value)}
-						disabled={isSubmitted}
-					/>
-					<button className="btn" onClick={sendComment} disabled={isSubmitted}>
-						Skicka
-					</button>
-				</div>
+				{isSubmitted ? (
+					<div className="thank-you-message">
+						<p>Tack för din kommentar!</p>
+					</div>
+				) : (
+					<div className="feedback-form">
+						Lämna gärna en kommentar
+						<input
+							className="input"
+							placeholder="Namn..."
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							disabled={isSubmitted}
+						/>
+						<textarea
+							className="textarea"
+							placeholder="Kommentar..."
+							value={comment}
+							onChange={(e) => setComment(e.target.value)}
+							disabled={isSubmitted}
+						/>
+						<button className="btn" onClick={sendComment} disabled={isSubmitted}>
+							Skicka
+						</button>
+					</div>
+				)}
 			</section>
 		</div>
 	);
