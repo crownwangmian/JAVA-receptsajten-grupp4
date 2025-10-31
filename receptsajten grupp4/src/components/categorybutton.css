@@ -6,24 +6,32 @@
     padding: 10px 20px;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 400;          /* no bold */
 }
 
 .hero nav .categorybutton.active {
     background-color: #444 !important;
     border: 2px solid white;
+    font-weight: 700;          /* bold */
 }
 
-@media (max-width: 720px) {
-    .hero nav .categorybutton {
-        padding: 5px 9px;
-        font-size: 10px;
-    }
-    
+.categorybutton .label {
+  line-height: 1;
 }
 
-    @media (max-width: 420px) {
-        .hero nav .categorybutton {
-            padding: 5px 9px;
-            font-size: 6px;
-        }
-    }
+.categorybutton .count {
+  margin-left: 6px;
+  line-height: 1;
+  opacity: 0.95;
+}
+
+.categorybutton .category-label {
+  margin-right: 4px;
+}
+
+.categorybutton .category-count {
+  opacity: 0.9;        
+  font-weight: 600;    
+  margin-left: 2px;
+}
+

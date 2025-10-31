@@ -1,215 +1,362 @@
+/* =========================
+ Force light theme (ignore system dark mode)
+   ========================= */
+:root, html, body {
+  color-scheme: light;               /* Make the browser control use a light appearance */
+}
+
+.receptdetail-page {
+  background: #ffffff !important;    
+  color: #111111 !important;         
+}
+
+/* Search boxes/input controls always have black text on a white background */
+.receptdetail-page input,
+.receptdetail-page textarea,
+.receptdetail-page select,
+.receptdetail-page .hero-search input[type="search"],
+.receptdetail-page .hero-search input[type="text"],
+.receptdetail-page .hero-search .search-input {
+  background: #ffffff !important;
+  color: #111111 !important;
+  border: 1px solid #ddd !important;
+  -webkit-text-fill-color: #111111 !important; /* Chrome/Safari */
+  caret-color: #111111 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+.receptdetail-page .hero-search input::placeholder,
+.receptdetail-page .hero-search .search-input::placeholder {
+  color: #666 !important;
+  opacity: 1 !important;
+}
+
+/* Maintain light appearance even when the system is dark */
+@media (prefers-color-scheme: dark) {
+  .receptdetail-page {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+  .receptdetail-page input,
+  .receptdetail-page textarea,
+  .receptdetail-page select,
+  .receptdetail-page .hero-search input[type="search"],
+  .receptdetail-page .hero-search input[type="text"],
+  .receptdetail-page .hero-search .search-input {
+    background: #ffffff !important;
+    color: #111111 !important;
+    border: 1px solid #ddd !important;
+    -webkit-text-fill-color: #111111 !important;
+    caret-color: #111111 !important;
+  }
+}
+
+/* =========================
+  riginal style (keep)
+   ========================= */
 .hero.hero--detail {
-	min-height: 160px;
+  min-height: 160px;
 }
 
 .hero-image {
-	max-width: 50%;
-	height: auto;
-	display: block;
-	border-radius: 8%;
+  max-width: 50%;
+  height: auto;
+  display: block;
+  border-radius: 8%;
 }
 
 .detail-meta {
-	max-width: 980px;
-	margin: 16px auto 0;
-	display: flex;
-	gap: 20px;
-	align-items: flex-start;
-	flex-wrap: nowrap;
-	padding: 8px 12px;
+  max-width: 980px;
+  margin: 16px auto 0;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  padding: 8px 12px;
 }
 .detail-meta .meta-item {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
 }
 .meta-column {
-	margin-top: 50px;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	justify-content: flex-start;
-	flex: 1 1 auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+  flex: 1 1 auto;
 }
-
-.meta-title {
-	text-align: center;
-	font-weight: bolder;
-	color: #111;
-}
-
-.description {
-	color: #111;
-	padding: 0 10%;
-	text-align: left;
-}
-
 .meta-label {
-	padding-left: 10%;
-	color: #666;
-	font-weight: 600;
+  color: #666;
+  font-weight: 600;
 }
+
 .difficulty-chip {
-	background: #111;
-	color: #fff;
-	padding: 3px 8px;
-	border-radius: 6px;
-	font-size: 0.85rem;
+  background: #111;
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
 }
-.meta-item.meta-rating {
-	align-self: center;
-	text-align: center;
-	margin-top: 6px;
-}
+
 .meta-rating .meta-stars span {
-	font-size: 1.1rem;
-	color: #ccc;
-	margin-right: 4px;
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-right: 4px;
 }
 .meta-rating .meta-stars span.active {
-	color: gold;
+  color: gold;
 }
 .meta-rating .meta-score {
-	font-weight: 600;
-	margin-left: 4px;
+  font-weight: 600;
+  margin-left: 4px;
 }
 
 .detail-body {
-	max-width: 980px;
-	margin: 24px auto;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 28px;
-	text-align: left;
+  max-width: 980px;
+  margin: 24px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  text-align: left;
 }
-
 .detail-body h3 {
-	text-align: center;
+  text-align: center;
 }
-
 .detail-col h3 {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 .dot-list {
-	list-style-position: inside;
-	padding-left: 12px; /* small padding for alignment */
-	line-height: 1.7;
+  list-style-position: inside;
+  padding-left: 12px;
+  line-height: 1.7;
 }
 .step-list {
-	padding-left: 20px;
-	line-height: 1.7;
-	list-style: none;
+  padding-left: 20px;
+  line-height: 1.7;
+  list-style: none;
 }
 
 .comment-meta {
-	color: #666;
-	font-size: 0.9em;
-	margin: 4px 0;
+  color: #666;
+  font-size: 0.9em;
+  margin: 4px 0;
 }
 
 .detail-feedback {
-	max-width: 980px;
-	margin: 24px auto 48px;
-	text-align: left;
+  max-width: 980px;
+  margin: 24px auto 48px;
+  text-align: left;
 }
 .detail-feedback h4 {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
+
 .stars span {
-	font-size: 1.4rem;
-	color: #ccc;
-	cursor: pointer;
-	margin-right: 6px;
+  font-size: 1.4rem;
+  color: #ccc;
+  cursor: pointer;
+  margin-right: 6px;
 }
 .stars span.active {
-	color: gold;
+  color: gold;
 }
 
 .feedback-form {
-	margin-top: 14px;
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 10px;
-	max-width: 520px;
-	text-align: left;
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  max-width: 520px;
+  text-align: left;
 }
 .input {
-	height: 34px;
-	padding: 6px 10px;
-	border-radius: 6px;
-	border: 1px solid #ddd;
-	outline: none;
-	width: 50%;
+  height: 34px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  outline: none;
+  width: 50%;
 }
 .textarea {
-	min-height: 110px;
-	padding: 8px 10px;
-	border-radius: 6px;
-	border: 1px solid #ddd;
-	outline: none;
+  min-height: 110px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  outline: none;
 }
+
 .btn {
-	width: 86px;
-	justify-self: end;
-	padding: 6px 12px;
-	border-radius: 6px;
-	border: none;
-	background: #111;
-	color: #fff;
-	font-weight: 700;
-	cursor: pointer;
+  width: 86px;
+  justify-self: end;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
 }
 .btn:hover {
-	background: #222;
+  background: #222;
 }
 
 input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.5rem;
-	cursor: pointer;
+  transform: scale(1.5);
+  margin-right: 0.5rem;
+  cursor: pointer;
 }
-
 .input:disabled,
 .textarea:disabled {
-	background-color: #f0f0f0;
-	color: #999;
-	cursor: not-allowed;
+  background-color: #f0f0f0;
+  color: #999;
+  cursor: not-allowed;
 }
-
 .btn:disabled {
-	background-color: #ccc;
-	cursor: not-allowed;
-	opacity: 0.6;
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
-.thank-you-message {
-	background-color: black;
-	color: white;
-	padding: 20px;
-	border-radius: 8px;
-	text-align: center;
-	margin-top: 20px;
-	font-size: 1.2em;
+.comments-section {
+  max-width: 980px;
+  margin: 24px auto;
+  text-align: left;
+}
+.comments-section h4 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.comment {
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #ddd;
+}
+.comment p {
+  margin: 4px 0;
+  line-height: 1.5;
 }
 
-.thank-you-message p {
-	margin: 0;
+/* ---- Prevent the search box from covering Hem (mobile) ---- */
+@media (max-width: 480px) {
+  .hero-home {
+    z-index: 9;
+    top: 10px;
+    left: 10px;
+  }
+  .hero-search {
+    right: 10px;
+    top: 10px;
+    z-index: 8;
+    max-width: calc(100% - 120px);
+  }
+  .hero-search .search-input,
+  .hero-search input[type="search"] {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 360px) {
+  .hero-search { max-width: calc(100% - 130px); }
 }
 
-@media (max-width: 720px) {
-	.detail-body {
-		grid-template-columns: 1fr;
-		text-align: center;
-	}
-	.meta-column {
-		margin-top: 0px;
-	}
-	.detail-meta {
-		flex-direction: column;
-		align-items: center;
-	}
-	.detail-feedback {
-		text-align: center;
-	}
+/* ====== Mobile: Category buttons automatically wrap (instead of horizontal scrolling) ====== */
+@media (max-width: 480px) {
+  .hero { padding-bottom: 90px; }
+  .hero nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 10px;
+    overflow: visible;
+    white-space: normal;
+    max-width: calc(100% - 24px);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 12px;
+  }
+  .hero nav .categorybutton {
+    flex: 0 1 auto;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border-radius: 9999px;
+  }
+}
+@media (max-width: 360px) {
+  .hero { padding-bottom: 100px; }
+  .hero nav .categorybutton {
+    padding: 7px 10px;
+    font-size: 0.88rem;
+  }
+}
+
+/* =========================
+   Mobile: Category button sliding
+   ========================= */
+@media (max-width: 480px) {
+  .hero { padding-bottom: 56px; }
+  .hero nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 12px;
+    transform: none;
+    display: flex;
+    flex-wrap: nowrap !important;
+    gap: 8px;
+    padding: 8px 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    mask-image: linear-gradient(to right,
+                  transparent 0,
+                  black 16px,
+                  black calc(100% - 16px),
+                  transparent 100%);
+  }
+  .hero nav::-webkit-scrollbar { display: none; }
+  .hero nav .categorybutton {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    padding: 8px 12px;
+    font-size: 0.92rem;
+    line-height: 1;
+    border-radius: 9999px;
+    color: #fff;
+    background: rgba(0,0,0,0.78);
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 0 2px 6px rgba(0,0,0,.18);
+    transition: transform .08s ease;
+  }
+  .hero nav .categorybutton:active { transform: scale(0.98); }
+  .hero nav .categorybutton.active {
+    background: #111;
+    border-color: rgba(255,255,255,0.45);
+    font-weight: 700;
+  }
+  .hero nav::before,
+  .hero nav::after { content: ""; flex: 0 0 4px; }
+
+  .hero-home { z-index: 9; top: 10px; left: 10px; }
+  .hero-search { z-index: 8; top: 10px; right: 10px; max-width: calc(100% - 120px); }
+  .hero-search .search-input,
+  .hero-search input[type="search"] {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    height: 34px;
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 360px) {
+  .hero { padding-bottom: 60px; }
+  .hero nav .categorybutton {
+    padding: 7px 10px;
+    font-size: 0.88rem;
+  }
 }

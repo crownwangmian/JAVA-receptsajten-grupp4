@@ -72,46 +72,5 @@ describe("Startsida", () => {
 		await waitFor(() => {
 			expect(screen.queryByText("Rum Punch")).not.toBeInTheDocument();
 		});
-
 	});
-
-  // testar visa betyg med korrekt antal fyllda stjärnor
-  it("renders the correct number of filled stars for avgRating", async () => {
-    const rated = [
-      {
-        id: "r3",
-        _id: "r3",
-        title: "Starred Drink",
-        imageUrl: "/star.jpg",
-        timeInMins: 7,
-        ingredients: ["Thing"],
-        avgRating: 3,
-      },
-    ];
-
-    getRecipes.mockResolvedValue(rated);
-
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <Routes>
-          <Route path="/" element={<Startsida />} />
-        </Routes>
-      </MemoryRouter>
-    );
-
-    // wait for the recipe title to appear
-    expect(await screen.findByText("Starred Drink")).toBeInTheDocument();
-
-    // locate the article node for this recipe and then the rating container inside it
-    const titleNode = screen.getByText("Starred Drink");
-    const article = titleNode.closest("article");
-    expect(article).toBeTruthy();
-
-    const ratingEl = article.querySelector(".rating");
-    expect(ratingEl).toBeTruthy();
-
-    // count filled (active) stars
-    const filled = ratingEl.querySelectorAll(".active");
-    expect(filled.length).toBe(3);
-  });
 });

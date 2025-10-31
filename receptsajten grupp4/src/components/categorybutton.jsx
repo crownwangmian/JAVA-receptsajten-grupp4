@@ -1,18 +1,16 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // for page navigation
+import { useNavigate } from "react-router-dom";
 import "./categorybutton.css";
 
-// Category button component
-export default function CategoryButton({ name, isActive }) {
+export default function CategoryButton({ name, isActive, onClick, count }) {
   const navigate = useNavigate();
 
-  // When the button is clicked, go to the category page
   const handleClick = () => {
-    // convert category name into lowercase (like "gin", "rum", "vodka")
-    const categoryId = name.toLowerCase().replace("drinkar", "");
+    if (typeof onClick === "function") onClick();
+    const categoryId = String(name).toLowerCase().replace("drinkar", "").trim();
     if (isActive) {
       navigate("/");
-    }else {
+    } else {
       navigate(`/category/${categoryId}`);
     }
   };
@@ -21,8 +19,12 @@ export default function CategoryButton({ name, isActive }) {
     <button
       className={`categorybutton ${isActive ? "active" : ""}`}
       onClick={handleClick}
+      aria-pressed={isActive}
+      data-count={count}               
+      title={`${name} (${count ?? 0})`} 
     >
-      {name}
+      <span className="label">{name}</span>
+      <span className="count">({count ?? 0})</span> {/* ← no cons showed */}
     </button>
   );
 }
