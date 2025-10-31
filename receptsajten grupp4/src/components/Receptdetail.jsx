@@ -9,7 +9,7 @@ import "./receptdetail.css"; // 👈 新增样式文件（第2步给出）
 import RatingStars from "./ui/RatingStars.jsx";
 import Categorybutton from "./categorybutton.jsx";
 import { categories } from "../data/categories";
-
+import Header from "./ui/Header.jsx";
 export default function Receptdetail() {
 	const navigate = useNavigate();
 	const { recipeId } = useParams();
@@ -132,7 +132,7 @@ export default function Receptdetail() {
 	return (
 		<div className="drink-app">
 			{/* Frame 1：头部大图 + 搜索 + 标题 */}
-			<header className="hero hero--detail">
+			{/* <header className="hero hero--detail">
 				<img src="/hero.jpg" alt="header" />
 				<Link className="hero-home" to="/">
 					Hem
@@ -167,8 +167,8 @@ export default function Receptdetail() {
 						/>
 					))}
 				</nav>
-			</header>
-
+			</header> */}
+			<Header query={query} setQuery={setQuery} />
 			{/* Frame 2：信息条 */}
 			<section className="detail-meta">
 				<img className="hero-image" src={img} alt={title} />
